@@ -1,0 +1,30 @@
+@use "../../styles/partials/variables" as *;
+
+@mixin flex($justify: flex-start, $align: flex-start, $direction: row) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+}
+
+@mixin tablet {
+  @media screen and (min-width: $tablet-breakpoint) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media screen and (min-width: $desktop-breakpoint) {
+    @content;
+  }
+}
+
+// Logo
+
+@mixin logo($font-size: 4.5rem) {
+  color: $primary-color;
+  background-color: $background-color;
+  margin: 1rem;
+  font-size: $font-size;
+  text-decoration: none;
+}

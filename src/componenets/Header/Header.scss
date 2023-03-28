@@ -1,0 +1,30 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.header-wrapper {
+  @include flex(space-between, center, column);
+
+  @include tablet {
+    @include flex(space-between, center, row);
+  }
+}
+
+.nav {
+  &__logo {
+    @include logo(3rem);
+  }
+
+  &__list {
+    list-style: none;
+    @include flex(center, center, row);
+  }
+
+  &__item {
+    margin: 1rem;
+    font-size: 1.6rem;
+    &-link {
+      text-decoration: none;
+      color: $primary-color;
+    }
+  }
+}

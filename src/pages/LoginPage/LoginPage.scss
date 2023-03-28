@@ -1,0 +1,49 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.login-wrapper {
+  height: 100vh;
+  @include flex(center, center, column);
+  margin: 0 auto;
+}
+
+.login__heading {
+  font-size: 6.2rem;
+  margin: 2rem;
+}
+
+.login-form {
+  @include flex(center, flex-start, column);
+
+  &__label {
+    margin: 1rem;
+    font-size: 2.4rem;
+  }
+
+  &__input {
+    padding: 1rem;
+    font-size: 1.6rem;
+    border-radius: 4rem;
+    background-color: $background-color;
+    border: 1px solid $primary-color;
+    color: $primary-color;
+    width: 17rem;
+  }
+
+  &__sbmt {
+    margin: 1rem 0;
+    font-size: 1.6rem;
+    padding: 1rem;
+    width: 17rem;
+    border-radius: 4rem;
+    border: 1px solid $primary-color;
+    color: $primary-color;
+    background-color: $background-color;
+  }
+
+  &__signup {
+    margin-top: 2rem;
+    text-decoration: none;
+    color: $primary-color;
+  }
+}

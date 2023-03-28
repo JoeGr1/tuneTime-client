@@ -1,0 +1,25 @@
+@use "./mixins" as *;
+@use "./variables" as *;
+
+@font-face {
+  font-family: "Rubik";
+  src: url("../../assets/fonts/Rubik/static/Rubik-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Rubik Medium";
+  src: url("../../assets/fonts/Rubik/static/Rubik-Regular.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Rubik Bold";
+  src: url("../../assets/fonts/Rubik/static/Rubik-Regular.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}

@@ -1,0 +1,25 @@
+@use "./mixins" as *;
+@use "./variables" as *;
+@use "./typography" as *;
+
+//  RESETS
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Rubik", Arial, Helvetica, sans-serif;
+}
+
+html {
+  font-size: 62.5%;
+  background-color: $background-color;
+  // background-color: #3b2b3a;
+  color: $primary-color;
+}
+
+body {
+  font-size: 1.6rem;
+  margin: 0;
+}
