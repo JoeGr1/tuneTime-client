@@ -31,10 +31,14 @@
   }
 
   &__sbmt {
-    margin: 1rem 0;
+    @include flex(center, center, null);
     font-size: 1.6rem;
+    text-decoration: none;
+
+    margin: 1rem 0;
     padding: 1rem;
     width: 17rem;
+
     border-radius: 4rem;
     border: 1px solid $primary-color;
     color: $primary-color;

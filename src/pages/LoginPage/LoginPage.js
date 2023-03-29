@@ -16,17 +16,13 @@ const LoginPage = () => {
           className="login-form__input"
           placeholder="Username"
         />
-        <button type="submit" className="login-form__sbmt">
+        <a
+          href={`${process.env.REACT_APP_SERVER_URL}auth/spotify`}
+          className="login-form__sbmt"
+        >
           Login with Spotify
-        </button>
+        </a>
       </form>
-      <Link
-        to="/signup"
-        className="login-form__signup
-      "
-      >
-        Signup
-      </Link>
     </div>
   );
 };

@@ -1,0 +1,27 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.post {
+  &-wrapper {
+    border-radius: 2rem;
+    border: 1px solid $primary-color;
+    padding: 1.6rem;
+    text-decoration: none;
+    cursor: pointer;
+
+    @include flex(space-between, center, row);
+  }
+
+  &__text-wrapper {
+    @include flex(center, flex-start, column);
+    text-decoration: none;
+  }
+
+  &__songname {
+    text-decoration: none;
+  }
+
+  &__song-details {
+    @include flex(space-between, center, row);
+  }
+}

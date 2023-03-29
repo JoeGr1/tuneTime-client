@@ -1,0 +1,8 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.feed {
+  &__post-link {
+    text-decoration: none;
+  }
+}

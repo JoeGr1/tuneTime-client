@@ -10,13 +10,13 @@ const Header = () => {
         tuneTime.
       </Link>
       <ul className="nav__list">
-        <Link className="nav__item-link">
+        <Link className="nav__item-link" to="/profile">
           <li className="nav__item">Profile.</li>
         </Link>
-        <Link className="nav__item-link">
+        <Link className="nav__item-link" to="/discover">
           <li className="nav__item">Discover.</li>
         </Link>
-        <Link className="nav__item-link">
+        <Link className="nav__item-link" to="/events">
           <li className="nav__item">Events.</li>
         </Link>
       </ul>
