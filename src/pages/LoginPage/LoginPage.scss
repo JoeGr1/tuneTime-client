@@ -21,28 +21,13 @@
   }
 
   &__input {
-    padding: 1rem;
-    font-size: 1.6rem;
-    border-radius: 4rem;
-    background-color: $background-color;
-    border: 1px solid $primary-color;
-    color: $primary-color;
+    @include form-input;
     width: 17rem;
   }
 
   &__sbmt {
-    @include flex(center, center, null);
-    font-size: 1.6rem;
-    text-decoration: none;
-
-    margin: 1rem 0;
-    padding: 1rem;
+    @include form-btn;
     width: 17rem;
-
-    border-radius: 4rem;
-    border: 1px solid $primary-color;
-    color: $primary-color;
-    background-color: $background-color;
   }
 
   &__signup {

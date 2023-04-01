@@ -28,3 +28,28 @@
   font-size: $font-size;
   text-decoration: none;
 }
+
+// forms
+
+@mixin form-input {
+  padding: 1rem;
+  font-size: 1.6rem;
+  border-radius: 4rem;
+  background-color: $background-color;
+  border: 1px solid $primary-color;
+  color: $primary-color;
+}
+
+@mixin form-btn {
+  @include flex(center, center, null);
+  font-size: 1.6rem;
+  text-decoration: none;
+
+  margin: 1rem 0;
+  padding: 1rem;
+
+  border-radius: 4rem;
+  border: 1px solid $primary-color;
+  color: $primary-color;
+  background-color: $background-color;
+}

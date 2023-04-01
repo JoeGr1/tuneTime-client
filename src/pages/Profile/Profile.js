@@ -4,6 +4,8 @@ import Header from "../../componenets/Header/Header";
 import Post from "../../componenets/Post/Post";
 import { Link } from "react-router-dom";
 
+import "./Profile.scss";
+
 const Profile = () => {
   // const [currentSong, setCurrentSong] = useState({});
 
@@ -31,19 +33,21 @@ const Profile = () => {
   ];
 
   return (
-    <div className="profile-wrapper">
+    <div className="profile-fragment">
       <Header />
-      {myPosts.map((post) => {
-        return (
-          <Link key={post.id} to={`/:post_id`} className="feed__post-link">
-            <Post post={post} />
-          </Link>
-        );
-      })}
-      {/* <button type="button" onClick={handleClick}>
+      <div className="profile-wrapper">
+        {myPosts.map((post) => {
+          return (
+            <Link key={post.id} to={`/:post_id`} className="feed__post-link">
+              <Post post={post} className="feed__post" />
+            </Link>
+          );
+        })}
+        {/* <button type="button" onClick={handleClick}>
         test get song
       </button> */}
-      {/* {currentSong !== null && <p>{currentSong}</p>} */}
+        {/* {currentSong !== null && <p>{currentSong}</p>} */}
+      </div>
     </div>
   );
 };

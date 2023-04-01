@@ -17,7 +17,7 @@ const LoginPage = () => {
           placeholder="Username"
         />
         <a
-          href={`${process.env.REACT_APP_SERVER_URL}auth/spotify`}
+          href={`${process.env.REACT_APP_SERVER_URL}login`}
           className="login-form__sbmt"
         >
           Login with Spotify

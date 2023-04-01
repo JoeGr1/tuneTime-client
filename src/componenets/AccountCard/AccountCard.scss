@@ -1,0 +1,22 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.account-card {
+  &-wrapper {
+    border-radius: 2rem;
+    border: 1px solid $primary-color;
+    padding: 1.6rem;
+    cursor: pointer;
+    background-color: #b5e5d5;
+    color: $background-color;
+    width: 100%;
+    @include flex(space-between, center, row);
+  }
+  &__name {
+    font-size: 2rem;
+  }
+
+  &__follow-btn {
+    @include form-btn;
+  }
+}

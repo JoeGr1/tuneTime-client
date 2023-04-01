@@ -2,7 +2,37 @@
 @use "../../styles/partials/variables" as *;
 
 .feed {
-  &__post-link {
-    text-decoration: none;
+  &-fragment {
+    margin-top: 3rem;
+  }
+
+  &-wrapper {
+    @include flex(center, center, column);
+    margin: $mobile-margin;
+
+    @include tablet {
+      margin: $tablet-margin;
+      margin-top: 1.5rem;
+    }
+
+    @include desktop {
+      margin: $desktop-margin;
+      max-width: 102rem;
+      margin-top: 1.5rem;
+    }
+  }
+
+  &__post-tune-btn {
+    @include form-btn;
+    width: 17rem;
+  }
+
+  &__post {
+    &-link {
+      width: 100%;
+      text-decoration: none;
+      color: inherit;
+      margin: 1rem 0;
+    }
   }
 }

@@ -5,23 +5,46 @@
   &-wrapper {
     border-radius: 2rem;
     border: 1px solid $primary-color;
-    padding: 1.6rem;
-    text-decoration: none;
+    padding: 1rem;
     cursor: pointer;
-
+    background-color: $background-color;
+    color: $primary-color-alt;
+    width: 100%;
     @include flex(space-between, center, row);
   }
 
   &__text-wrapper {
-    @include flex(center, flex-start, column);
-    text-decoration: none;
+    @include flex(space-between, flex-start, column);
+    height: 100%;
+    width: 100%;
+  }
+
+  &__album-cover {
+    height: 12rem;
+    width: 12rem;
+    border-radius: 2rem;
   }
 
   &__songname {
-    text-decoration: none;
+    font-size: 2rem;
+    margin: 1rem;
+  }
+
+  &__artist {
+    margin: 1rem 0;
+  }
+
+  &__album {
+    margin: 1rem 0;
+  }
+
+  &__song-duration {
+    margin: 1rem;
   }
 
   &__song-details {
-    @include flex(space-between, center, row);
+    @include flex(space-evenly, left, column);
+    margin: 1rem;
+    width: 100%;
   }
 }

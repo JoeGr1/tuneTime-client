@@ -10,7 +10,7 @@ const Header = () => {
         tuneTime.
       </Link>
       <ul className="nav__list">
-        <Link className="nav__item-link" to="/profile">
+        <Link className="nav__item-link" to="/profile/:id">
           <li className="nav__item">Profile.</li>
         </Link>
         <Link className="nav__item-link" to="/discover">

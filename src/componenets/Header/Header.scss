@@ -3,9 +3,20 @@
 
 .header-wrapper {
   @include flex(space-between, center, column);
+  margin: $mobile-margin;
+  margin-top: 1.5rem;
 
   @include tablet {
     @include flex(space-between, center, row);
+    margin: $tablet-margin;
+    margin-top: 1.5rem;
+  }
+
+  @include desktop {
+    @include flex(space-between, center, row);
+    margin: $desktop-margin;
+    max-width: 102rem;
+    margin-top: 1.5rem;
   }
 }
 

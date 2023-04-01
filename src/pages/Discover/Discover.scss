@@ -1,0 +1,45 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.discover {
+  &-fragment {
+    margin-top: 3rem;
+  }
+
+  &-wrapper {
+    @include flex(center, center, column);
+    margin: $mobile-margin;
+
+    @include tablet {
+      margin: $tablet-margin;
+      margin-top: 1.5rem;
+    }
+
+    @include desktop {
+      margin: $desktop-margin;
+      max-width: 102rem;
+      margin-top: 1.5rem;
+    }
+  }
+
+  &-form {
+    @include flex(center, center, row);
+    margin-top: 1.5rem;
+
+    &__search {
+      @include form-input;
+      padding: 0.5rem 1rem;
+
+      &-btn {
+        @include form-btn;
+        padding: 0.5rem 1rem;
+      }
+    }
+  }
+
+  &__no-accounts-msg {
+    color: inherit;
+    font-size: 1.6rem;
+    font-weight: 300;
+  }
+}
