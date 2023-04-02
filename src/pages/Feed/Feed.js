@@ -57,7 +57,7 @@ const Feed = () => {
 
     const newPost = {
       id: 112,
-      user_id: serverSession.sessionProfile.id,
+      // user_id: serverSession.sessionProfile.id,
       song_name: response.data.item.name,
       artist: response.data.item.album.artists[0].name,
       album: response.data.item.album.album_group,
