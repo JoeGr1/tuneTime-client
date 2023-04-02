@@ -13,8 +13,8 @@ const Post = ({ post }) => {
       <div className="post__text-wrapper">
         <h2 className="post__songname">{post.song_name}</h2>
         <div className="post__song-details">
-          <p className="post__artist">{post.artist}</p>
-          <p className="post__album">{post.album}</p>
+          <p className="post__artist">{post.artist_name}</p>
+          <p className="post__album">{post.album_name}</p>
         </div>
         <p className="post__song-duration">{post.song_duration}</p>
       </div>

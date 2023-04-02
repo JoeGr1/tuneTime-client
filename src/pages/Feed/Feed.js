@@ -20,17 +20,33 @@ const Feed = () => {
     },
   ]);
 
-  let serverSession;
-  let refresh_token;
+  const [currentProfile, setCurrentProfile] = useState({});
+  const [serverSession, setServerSession] = useState({
+    //   access_token: "",
+    //   token_type: "",
+    //   expires_in: 0,
+    //   refresh_token: "",
+    //   scope: "",
+    //   sessionProfile: { id: "", display_name: "" },
+  });
+
   let access_token;
 
   useEffect(() => {
     const getToken = async () => {
       try {
         const { data } = await axios.get(`http://localhost:9090/get-tokens`);
-        serverSession = data;
-        access_token = serverSession.access_token;
-        refresh_token = serverSession.refresh_token;
+        setServerSession(data);
+        // access_token = data.access_token;
+        // console.log(access_token);
+        // console.log(serverSession);
+        // const newProfile = {
+        //   id: serverSession.sessionProfile.id,
+        //   user_name: serverSession.sessionProfile.display_name,
+        // };
+        // console.log(newProfile);
+        // setCurrentProfile({ ...newProfile });
+        // console.log(currentProfile);
       } catch (err) {
         console.log(err);
       }
@@ -39,33 +55,57 @@ const Feed = () => {
     getToken();
   }, []);
 
+  useEffect(() => {
+    access_token = serverSession.access_token;
+  }, [serverSession]);
+
+  useEffect(() => {
+    const newProfile = {
+      id: serverSession.sessionProfile.id,
+      user_name: serverSession.sessionProfile.display_name,
+    };
+    setCurrentProfile({ ...newProfile });
+  }, [serverSession]);
+
+  // useEffect(() => {
+  //   access_token = serverSession.access_token;
+  //   console.log(serverSession);
+  //   const newProfile = {
+  //     id: serverSession.sessionProfile.id,
+  //     user_name: serverSession.sessionProfile.display_name,
+  //   };
+  //   console.log(newProfile);
+  //   setCurrentProfile({ ...newProfile });
+  // }, [serverSession]);
+
   const handlePostClick = async () => {
+    console.log(serverSession.access_token);
+    console.log(access_token);
     const currentlyPlayingHeader = {
       Authorization: `Bearer ${access_token}`,
     };
 
-    const response = await axios.get(
-      "https://api.spotify.com/v1/me/player/currently-playing",
-      { headers: currentlyPlayingHeader }
-    );
+    try {
+      const response = await axios.get(
+        "https://api.spotify.com/v1/me/player/currently-playing",
+        { headers: currentlyPlayingHeader }
+      );
 
-    // console.log(response);
-    // console.log(response.status);
-    // console.log(response.data);
-    // console.log(serverSession);
-    // console.log(serverSession.sessionProfile);
+      const newPost = {
+        id: 112,
+        // user_id: serverSession.sessionProfile.id,
+        // user_name: serverSession.sessionProfile.display_name,
+        song_name: response.data.item.name,
+        artist_name: response.data.item.album.artists[0].name,
+        album_name: response.data.item.album.album_group,
+        album_cover: response.data.item.album.images[1].url,
+        song_duration: "4:20",
+      };
 
-    const newPost = {
-      id: 112,
-      user_id: serverSession.sessionProfile.id,
-      song_name: response.data.item.name,
-      artist: response.data.item.album.artists[0].name,
-      album: response.data.item.album.album_group,
-      album_cover: response.data.item.album.images[1].url,
-      song_duration: "4:20",
-    };
-
-    setPosts([...posts, newPost]);
+      setPosts([...posts, newPost]);
+    } catch (err) {
+      console.log(err);
+    }
 
     // if (response.status !== 200) {
     //   const response = await axios.get(

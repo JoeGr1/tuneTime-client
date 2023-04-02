@@ -15,7 +15,6 @@ const Discover = () => {
   ];
   const [matchedAccounts, setMatchedAccounts] = useState(accounts);
 
-  console.log(matchedAccounts.length);
   // localhost/users/:name
   //use params in back to query knex db
 
