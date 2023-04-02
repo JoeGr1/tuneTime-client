@@ -25,19 +25,18 @@ const Feed = () => {
   let access_token;
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:9090/get-tokens`)
-      .then((response) => {
-        console.log(response);
-        console.log(response.data);
-        serverSession = response;
-        console.log(serverSession);
-        access_token = serverSession.data.access_token;
-        console.log(access_token);
-      })
-      .catch((err) => {
+    const getToken = async () => {
+      try {
+        const { data } = await axios.get(`http://localhost:9090/get-tokens`);
+        serverSession = data;
+        access_token = serverSession.access_token;
+        refresh_token = serverSession.refresh_token;
+      } catch (err) {
         console.log(err);
-      });
+      }
+    };
+
+    getToken();
   }, []);
 
   const handlePostClick = async () => {
@@ -50,20 +49,21 @@ const Feed = () => {
       { headers: currentlyPlayingHeader }
     );
 
-    console.log(response);
-    console.log(response.status);
-    console.log(response.data);
+    // console.log(response);
+    // console.log(response.status);
+    // console.log(response.data);
+    // console.log(serverSession);
+    // console.log(serverSession.sessionProfile);
 
     const newPost = {
       id: 112,
-      user_id: 123,
+      user_id: serverSession.sessionProfile.id,
       song_name: response.data.item.name,
       artist: response.data.item.album.artists[0].name,
       album: response.data.item.album.album_group,
       album_cover: response.data.item.album.images[1].url,
       song_duration: "4:20",
     };
-    console.log(newPost);
 
     setPosts([...posts, newPost]);
 
