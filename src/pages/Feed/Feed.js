@@ -1,5 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { v4 as uuid } from "uuid";
 import Header from "../../componenets/Header/Header";
 import Post from "../../componenets/Post/Post";
 
@@ -10,7 +11,7 @@ import "./Feed.scss";
 const Feed = () => {
   const [posts, setPosts] = useState([
     {
-      id: 111,
+      id: uuid(),
       user_id: 123,
       song_name: "songName",
       artist: "artist",
@@ -37,15 +38,15 @@ const Feed = () => {
       try {
         const { data } = await axios.get(`http://localhost:9090/get-tokens`);
         setServerSession(data);
-        // access_token = data.access_token;
-        // console.log(access_token);
-        // console.log(serverSession);
-        // const newProfile = {
-        //   id: serverSession.sessionProfile.id,
-        //   user_name: serverSession.sessionProfile.display_name,
-        // };
-        // console.log(newProfile);
-        // setCurrentProfile({ ...newProfile });
+        access_token = data.access_token;
+        console.log(access_token);
+        console.log(serverSession);
+        const newProfile = {
+          id: serverSession.sessionProfile.id,
+          user_name: serverSession.sessionProfile.display_name,
+        };
+        console.log(newProfile);
+        setCurrentProfile({ ...newProfile });
         // console.log(currentProfile);
       } catch (err) {
         console.log(err);
@@ -55,17 +56,17 @@ const Feed = () => {
     getToken();
   }, []);
 
-  useEffect(() => {
-    access_token = serverSession.access_token;
-  }, [serverSession]);
+  // useEffect(() => {
+  //   access_token = serverSession.access_token;
+  // }, [serverSession]);
 
-  useEffect(() => {
-    const newProfile = {
-      id: serverSession.sessionProfile.id,
-      user_name: serverSession.sessionProfile.display_name,
-    };
-    setCurrentProfile({ ...newProfile });
-  }, [serverSession]);
+  // useEffect(() => {
+  //   const newProfile = {
+  //     id: serverSession.sessionProfile.id,
+  //     user_name: serverSession.sessionProfile.display_name,
+  //   };
+  //   setCurrentProfile({ ...newProfile });
+  // }, [serverSession]);
 
   // useEffect(() => {
   //   access_token = serverSession.access_token;
@@ -82,7 +83,7 @@ const Feed = () => {
     console.log(serverSession.access_token);
     console.log(access_token);
     const currentlyPlayingHeader = {
-      Authorization: `Bearer ${access_token}`,
+      Authorization: `Bearer ${serverSession.access_token}`,
     };
 
     try {
@@ -92,7 +93,7 @@ const Feed = () => {
       );
 
       const newPost = {
-        id: 112,
+        id: uuid(),
         // user_id: serverSession.sessionProfile.id,
         // user_name: serverSession.sessionProfile.display_name,
         song_name: response.data.item.name,
@@ -101,6 +102,7 @@ const Feed = () => {
         album_cover: response.data.item.album.images[1].url,
         song_duration: "4:20",
       };
+      console.log(newPost);
 
       setPosts([...posts, newPost]);
     } catch (err) {
