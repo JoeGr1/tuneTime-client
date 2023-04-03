@@ -22,14 +22,7 @@ const Feed = () => {
   ]);
 
   const [currentProfile, setCurrentProfile] = useState({});
-  const [serverSession, setServerSession] = useState({
-    //   access_token: "",
-    //   token_type: "",
-    //   expires_in: 0,
-    //   refresh_token: "",
-    //   scope: "",
-    //   sessionProfile: { id: "", display_name: "" },
-  });
+  const [serverSession, setServerSession] = useState({});
 
   let access_token;
 
@@ -37,20 +30,19 @@ const Feed = () => {
     const getToken = async () => {
       try {
         const { data } = await axios.get(
-          `${process.env.REACT_APP_SERVER_URL}/get-tokens`
+          `${process.env.REACT_APP_SERVER_URL}/get-session`
         );
-        console.log(data);
+
         setServerSession(data);
+
         access_token = data.access_token;
-        console.log(access_token);
-        console.log(serverSession);
+
         const newProfile = {
-          id: serverSession.sessionProfile.id,
-          user_name: serverSession.sessionProfile.display_name,
+          id: data.sessionProfile.id,
+          user_name: data.sessionProfile.display_name,
         };
-        console.log(newProfile);
-        setCurrentProfile({ ...newProfile });
-        // console.log(currentProfile);
+
+        setCurrentProfile(newProfile);
       } catch (err) {
         console.log(err);
       }
@@ -58,29 +50,6 @@ const Feed = () => {
 
     getToken();
   }, []);
-
-  // useEffect(() => {
-  //   access_token = serverSession.access_token;
-  // }, [serverSession]);
-
-  // useEffect(() => {
-  //   const newProfile = {
-  //     id: serverSession.sessionProfile.id,
-  //     user_name: serverSession.sessionProfile.display_name,
-  //   };
-  //   setCurrentProfile({ ...newProfile });
-  // }, [serverSession]);
-
-  // useEffect(() => {
-  //   access_token = serverSession.access_token;
-  //   console.log(serverSession);
-  //   const newProfile = {
-  //     id: serverSession.sessionProfile.id,
-  //     user_name: serverSession.sessionProfile.display_name,
-  //   };
-  //   console.log(newProfile);
-  //   setCurrentProfile({ ...newProfile });
-  // }, [serverSession]);
 
   const handlePostClick = async () => {
     console.log(serverSession.access_token);
@@ -102,8 +71,8 @@ const Feed = () => {
 
       const newPost = {
         id: uuid(),
-        // user_id: serverSession.sessionProfile.id,
-        // user_name: serverSession.sessionProfile.display_name,
+        user_id: serverSession.sessionProfile.id,
+        user_name: serverSession.sessionProfile.display_name,
         song_name: response.data.item.name,
         artist_name: response.data.item.album.artists[0].name,
         album_name: response.data.item.album.album_group,
@@ -116,23 +85,6 @@ const Feed = () => {
     } catch (err) {
       console.log(err);
     }
-
-    // console.log(newPost);
-
-    // if (response.status !== 200) {
-    //   const response = await axios.get(
-    //     "https://api.spotify.com/v1/me/player/recently-played?limit=1",
-    //     {
-    //       headers: currentlyPlayingHeader,
-    //     }
-    //   );
-    //   console.log(response);
-
-    //   console.log(response.data);
-    //   console.log(response.data.item.name);
-    // } else {
-    //   console.log(response.data.item.name);
-    // }
   };
 
   // API call to get list of posts by following
