@@ -8,7 +8,7 @@ const LoginPage = () => {
       <h1 className="login__heading">tuneTime.</h1>
       <form action="" className="login-form">
         <a
-          href={`${process.env.REACT_APP_SERVER_URL}login`}
+          href={`${process.env.REACT_APP_SERVER_URL}/login`}
           className="login-form__sbmt"
         >
           Login with Spotify
