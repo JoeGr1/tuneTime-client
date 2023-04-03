@@ -56,15 +56,31 @@ const Feed = () => {
     // console.log(serverSession);
     // console.log(serverSession.sessionProfile);
 
-    const newPost = {
+    let newPost = {
       id: 112,
       // user_id: serverSession.sessionProfile.id,
-      song_name: response.data.item.name,
-      artist: response.data.item.album.artists[0].name,
-      album: response.data.item.album.album_group,
-      album_cover: response.data.item.album.images[1].url,
-      song_duration: "4:20",
+      song_name: "",
+      artist: "",
+      album: "",
+      album_cover: "",
+      song_duration: "",
     };
+
+    console.log(response);
+
+    if (response.status === 200) {
+      newPost = {
+        id: 112,
+        // user_id: serverSession.sessionProfile.id,
+        song_name: response.data.item.name,
+        artist: response.data.item.album.artists[0].name,
+        album: response.data.item.album.album_group,
+        album_cover: response.data.item.album.images[1].url,
+        song_duration: "4:20",
+      };
+    }
+
+    console.log(newPost);
 
     setPosts([...posts, newPost]);
 
