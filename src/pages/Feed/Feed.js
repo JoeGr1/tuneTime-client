@@ -30,6 +30,7 @@ const Feed = () => {
         const { data } = await axios.get(`http://localhost:9090/get-tokens`);
         serverSession = data;
         access_token = serverSession.access_token;
+        console.log(serverSession.access_token);
         refresh_token = serverSession.refresh_token;
       } catch (err) {
         console.log(err);
@@ -41,7 +42,7 @@ const Feed = () => {
 
   const handlePostClick = async () => {
     const currentlyPlayingHeader = {
-      Authorization: `Bearer ${access_token}`,
+      Authorization: `Bearer ${serverSession.access_token}`,
     };
 
     const response = await axios.get(
