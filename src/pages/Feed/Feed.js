@@ -36,18 +36,21 @@ const Feed = () => {
   useEffect(() => {
     const getToken = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:9090/get-tokens`);
-        setServerSession(data);
-        access_token = data.access_token;
-        console.log(access_token);
-        console.log(serverSession);
-        const newProfile = {
-          id: serverSession.sessionProfile.id,
-          user_name: serverSession.sessionProfile.display_name,
-        };
-        console.log(newProfile);
-        setCurrentProfile({ ...newProfile });
-        // console.log(currentProfile);
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/get-tokens`
+        );
+        console.log(data);
+        // setServerSession(data);
+        // access_token = data.access_token;
+        // console.log(access_token);
+        // console.log(serverSession);
+        // const newProfile = {
+        //   id: serverSession.sessionProfile.id,
+        //   user_name: serverSession.sessionProfile.display_name,
+        // };
+        // console.log(newProfile);
+        // setCurrentProfile({ ...newProfile });
+        // // console.log(currentProfile);
       } catch (err) {
         console.log(err);
       }
