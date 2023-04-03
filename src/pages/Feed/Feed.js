@@ -40,17 +40,17 @@ const Feed = () => {
           `${process.env.REACT_APP_SERVER_URL}/get-tokens`
         );
         console.log(data);
-        // setServerSession(data);
-        // access_token = data.access_token;
-        // console.log(access_token);
-        // console.log(serverSession);
-        // const newProfile = {
-        //   id: serverSession.sessionProfile.id,
-        //   user_name: serverSession.sessionProfile.display_name,
-        // };
-        // console.log(newProfile);
-        // setCurrentProfile({ ...newProfile });
-        // // console.log(currentProfile);
+        setServerSession(data);
+        access_token = data.access_token;
+        console.log(access_token);
+        console.log(serverSession);
+        const newProfile = {
+          id: serverSession.sessionProfile.id,
+          user_name: serverSession.sessionProfile.display_name,
+        };
+        console.log(newProfile);
+        setCurrentProfile({ ...newProfile });
+        // console.log(currentProfile);
       } catch (err) {
         console.log(err);
       }
@@ -84,7 +84,12 @@ const Feed = () => {
 
   const handlePostClick = async () => {
     console.log(serverSession.access_token);
-    console.log(access_token);
+
+    if (!serverSession.access_token) {
+      console.log("Could not find Access Tken");
+      return;
+    }
+
     const currentlyPlayingHeader = {
       Authorization: `Bearer ${serverSession.access_token}`,
     };
@@ -111,6 +116,8 @@ const Feed = () => {
     } catch (err) {
       console.log(err);
     }
+
+    // console.log(newPost);
 
     // if (response.status !== 200) {
     //   const response = await axios.get(
