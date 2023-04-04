@@ -1,48 +1,61 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "../../componenets/Header/Header";
-import Post from "../../componenets/FeedPost/FeedPost";
+import MyPost from "../../componenets/MyPost/MyPost";
 import { Link } from "react-router-dom";
 
 import "./Profile.scss";
 
-const Profile = () => {
-  // const [currentSong, setCurrentSong] = useState({});
+const Profile = ({ session, profile }) => {
+  const [myPosts, setMyPosts] = useState(null);
+  const [followers, setFollowers] = useState(null);
 
-  // const handleClick = (e) => {
-  //   const getSong = async () => {
-  //     const { response } = await axios.get(
-  //       `${process.env.REACT_APP_SERVER_URL}/current-song`
-  //     );
-  //     console.log(response);
-  //     setCurrentSong(response.data);
-  //   };
-  //   getSong();
-  // };
+  useEffect(() => {
+    try {
+      setFollowers(6);
+      const getMyPosts = async () => {
+        const myId = profile.spotify_id;
+        console.log(myId);
 
-  const myPosts = [
-    {
-      id: 111,
-      user_id: 123,
-      song_name: "songName",
-      artist: "artist",
-      album: "album",
-      album_cover: "URL",
-      song_duration: "4:20",
-    },
-  ];
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/posts/${myId}`
+        );
+
+        console.log(data);
+
+        setMyPosts(data);
+      };
+      getMyPosts();
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   return (
     <div className="profile-fragment">
       <Header />
       <div className="profile-wrapper">
-        {myPosts.map((post) => {
-          return (
-            <Link key={post.id} to={`/:post_id`} className="feed__post-link">
-              <Post post={post} className="feed__post" />
-            </Link>
-          );
-        })}
+        <div className="profile__info">
+          <h2 className="profile__name">{profile.user_name}</h2>
+          <p className="profile__folllowers">Followers: {followers}</p>
+        </div>
+
+        {myPosts &&
+          myPosts.map((post) => {
+            return (
+              <Link
+                key={post.id}
+                to={`/profile/${post.id}`}
+                className="feed__post-link"
+              >
+                <MyPost post={post} className="feed__post" />
+              </Link>
+            );
+          })}
+
+        {!myPosts && (
+          <h3 className="profile__no-posts-msg">You Have No Posts</h3>
+        )}
         {/* <button type="button" onClick={handleClick}>
         test get song
       </button> */}

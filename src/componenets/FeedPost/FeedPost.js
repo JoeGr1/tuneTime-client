@@ -1,11 +1,14 @@
 import React from "react";
 
 import "./FeedPost.scss";
+import { Link } from "react-router-dom";
 
 const FeedPost = ({ post }) => {
   return (
     <div className="post-wrapper">
-      <div className="post__user_name">{post.user_name}</div>
+      <Link to={`/profile/${post.spotify_id}`} className="post__user_name">
+        {post.user_name}
+      </Link>
       <img
         src={post.album_cover}
         alt="albumcover"

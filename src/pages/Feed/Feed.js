@@ -8,51 +8,21 @@ import MyPost from "../../componenets/MyPost/MyPost";
 import axios from "axios";
 
 import "./Feed.scss";
+import SinglePost from "../../componenets/SinglePost/SinglePost";
 
-const Feed = () => {
-  const [posts, setPosts] = useState([
-    // {
-    //   id: uuid(),
-    //   spotify_id: 123,
-    //   user_name: "newPostBy",
-    //   song_name: "songName",
-    //   artist_name: "artist",
-    //   album_name: "album",
-    //   album_cover: "URL",
-    //   song_duration: "4:20",
-    // },
-  ]);
+const Feed = ({ session, profile }) => {
+  const [posts, setPosts] = useState([]);
 
   const [currentProfile, setCurrentProfile] = useState(null);
   const [feedPosts, setFeedPosts] = useState(null);
   const [serverSession, setServerSession] = useState({});
-
-  let access_token;
+  const [showModal, setShowmodal] = useState(false);
+  const [postClicked, setPostClicked] = useState(null);
 
   useEffect(() => {
-    const getSession = async () => {
-      try {
-        const { data } = await axios.get(
-          `${process.env.REACT_APP_SERVER_URL}/get-session`
-        );
-
-        setServerSession(data);
-
-        access_token = data.access_token;
-
-        const newProfile = {
-          spotify_id: data.sessionProfile.id,
-          user_name: data.sessionProfile.display_name,
-        };
-
-        setCurrentProfile(newProfile);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    getSession();
-  }, []);
+    setServerSession(session);
+    setCurrentProfile(profile);
+  });
 
   useEffect(() => {
     const user = currentProfile;
@@ -126,7 +96,10 @@ const Feed = () => {
     }
   };
 
-  // API call to get list of posts by following
+  const toggleModal = (post) => {
+    setShowmodal(!showModal);
+    setPostClicked(post);
+  };
 
   return (
     <div className="feed-fragment">
@@ -136,10 +109,12 @@ const Feed = () => {
           post your tune
         </button>
 
+        {postClicked && <SinglePost post={postClicked} />}
+
         {posts &&
           posts.map((post) => {
             return (
-              <Link key={post.id} to={`/:post_id`} className="feed__post-link">
+              <Link key={post.id} to={``} className="feed__post-link">
                 <MyPost post={post} className="feed__post" />
               </Link>
             );
@@ -147,7 +122,14 @@ const Feed = () => {
         {feedPosts &&
           feedPosts.map((post) => {
             return (
-              <Link key={post.id} to={`/:post_id`} className="feed__post-link">
+              <Link
+                key={post.id}
+                to={``}
+                className="feed__post-link"
+                onClick={() => {
+                  toggleModal(post);
+                }}
+              >
                 <FeedPost post={post} className="feed__post" />
               </Link>
             );
