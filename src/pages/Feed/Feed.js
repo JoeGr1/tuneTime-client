@@ -2,7 +2,8 @@ import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import Header from "../../componenets/Header/Header";
-import Post from "../../componenets/Post/Post";
+import FeedPost from "../../componenets/FeedPost/FeedPost";
+import MyPost from "../../componenets/MyPost/MyPost";
 
 import axios from "axios";
 
@@ -139,7 +140,7 @@ const Feed = () => {
           posts.map((post) => {
             return (
               <Link key={post.id} to={`/:post_id`} className="feed__post-link">
-                <Post post={post} className="feed__post" />
+                <MyPost post={post} className="feed__post" />
               </Link>
             );
           })}
@@ -147,7 +148,7 @@ const Feed = () => {
           feedPosts.map((post) => {
             return (
               <Link key={post.id} to={`/:post_id`} className="feed__post-link">
-                <Post post={post} className="feed__post" />
+                <FeedPost post={post} className="feed__post" />
               </Link>
             );
           })}

@@ -1,8 +1,8 @@
 import React from "react";
 
-import "./Post.scss";
+import "./MyPost.scss";
 
-const Post = ({ post }) => {
+const MyPost = ({ post }) => {
   return (
     <div className="post-wrapper">
       <img
@@ -22,4 +22,4 @@ const Post = ({ post }) => {
   );
 };
 
-export default Post;
+export default MyPost;
