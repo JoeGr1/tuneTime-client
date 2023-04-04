@@ -10,24 +10,26 @@ import "./Feed.scss";
 
 const Feed = () => {
   const [posts, setPosts] = useState([
-    {
-      id: uuid(),
-      user_id: 123,
-      song_name: "songName",
-      artist: "artist",
-      album: "album",
-      album_cover: "URL",
-      song_duration: "4:20",
-    },
+    // {
+    //   id: uuid(),
+    //   spotify_id: 123,
+    //   user_name: "newPostBy",
+    //   song_name: "songName",
+    //   artist_name: "artist",
+    //   album_name: "album",
+    //   album_cover: "URL",
+    //   song_duration: "4:20",
+    // },
   ]);
 
-  const [currentProfile, setCurrentProfile] = useState({});
+  const [currentProfile, setCurrentProfile] = useState(null);
+  const [feedPosts, setFeedPosts] = useState(null);
   const [serverSession, setServerSession] = useState({});
 
   let access_token;
 
   useEffect(() => {
-    const getToken = async () => {
+    const getSession = async () => {
       try {
         const { data } = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/get-session`
@@ -38,7 +40,7 @@ const Feed = () => {
         access_token = data.access_token;
 
         const newProfile = {
-          id: data.sessionProfile.id,
+          spotify_id: data.sessionProfile.id,
           user_name: data.sessionProfile.display_name,
         };
 
@@ -48,8 +50,30 @@ const Feed = () => {
       }
     };
 
-    getToken();
+    getSession();
   }, []);
+
+  useEffect(() => {
+    const user = currentProfile;
+
+    console.log(user);
+
+    if (!user) {
+      return;
+    } else {
+      const createUser = async () => {
+        try {
+          const response = await axios.post(
+            `${process.env.REACT_APP_SERVER_URL}/api/users/create-user`,
+            user
+          );
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      createUser();
+    }
+  }, [currentProfile]);
 
   const handlePostClick = async () => {
     console.log(serverSession.access_token);
@@ -69,9 +93,11 @@ const Feed = () => {
         { headers: currentlyPlayingHeader }
       );
 
+      // ass validation and recently-played api call
+
       const newPost = {
         id: uuid(),
-        user_id: serverSession.sessionProfile.id,
+        spotify_id: serverSession.sessionProfile.id,
         user_name: serverSession.sessionProfile.display_name,
         song_name: response.data.item.name,
         artist_name: response.data.item.album.artists[0].name,
@@ -79,11 +105,23 @@ const Feed = () => {
         album_cover: response.data.item.album.images[1].url,
         song_duration: "4:20",
       };
-      console.log(newPost);
 
-      setPosts([...posts, newPost]);
+      setPosts([newPost]);
     } catch (err) {
       console.log(err);
+    }
+
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/posts/feed/${currentProfile.spotify_id}`
+      );
+
+      // console.log(response.data);
+
+      // console.log([...posts, ...response.data]);
+      setFeedPosts([...response.data]);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -97,13 +135,22 @@ const Feed = () => {
           post your tune
         </button>
 
-        {posts.map((post) => {
-          return (
-            <Link key={post.id} to={`/:post_id`} className="feed__post-link">
-              <Post post={post} className="feed__post" />
-            </Link>
-          );
-        })}
+        {posts &&
+          posts.map((post) => {
+            return (
+              <Link key={post.id} to={`/:post_id`} className="feed__post-link">
+                <Post post={post} className="feed__post" />
+              </Link>
+            );
+          })}
+        {feedPosts &&
+          feedPosts.map((post) => {
+            return (
+              <Link key={post.id} to={`/:post_id`} className="feed__post-link">
+                <Post post={post} className="feed__post" />
+              </Link>
+            );
+          })}
       </div>
     </div>
   );

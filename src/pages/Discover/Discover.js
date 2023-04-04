@@ -11,7 +11,7 @@ const Discover = () => {
     {
       id: 111,
       spotify_id: 123,
-      spotify_name: "accountName",
+      user_name: "accountName",
     },
   ];
   const [matchedAccounts, setMatchedAccounts] = useState(accounts);
@@ -24,12 +24,10 @@ const Discover = () => {
     const searchTerm = e.target.search.value;
 
     try {
-      const { response } = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/users/${searchTerm}`
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/users/search/${searchTerm}`
       );
-      console.log(response);
-
-      setMatchedAccounts(response);
+      setMatchedAccounts(data);
     } catch (err) {
       console.log(err);
     }
@@ -39,24 +37,20 @@ const Discover = () => {
     <div className="discover-fragment">
       <Header />
       <div className="discover-wrapper">
-        <form action="" className="discover-form">
+        <form action="" className="discover-form" onSubmit={handleSubmit}>
           <input
             type="text"
             name="search"
             className="discover-form__search"
             placeholder="Find More People"
           />
-          <button
-            type="submit"
-            className="discover-form__search-btn"
-            onSubmit={handleSubmit}
-          >
+          <button type="submit" className="discover-form__search-btn">
             Search
           </button>
         </form>
         {matchedAccounts.length > 0 &&
           matchedAccounts.map((account) => {
-            return <AccountCard key={account.id} account={account} />;
+            return <AccountCard key={account.spotify_id} account={account} />;
           })}
         {matchedAccounts.length === 0 && (
           <h3 className="discover__no-accounts-msg">User does not Exist </h3>
