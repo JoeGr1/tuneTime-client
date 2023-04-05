@@ -43,11 +43,7 @@ const Profile = ({ session, profile }) => {
         {myPosts &&
           myPosts.map((post) => {
             return (
-              <Link
-                key={post.id}
-                to={`/profile/${post.id}`}
-                className="feed__post-link"
-              >
+              <Link key={post.id} to={``} className="feed__post-link">
                 <MyPost post={post} className="feed__post" />
               </Link>
             );

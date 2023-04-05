@@ -11,7 +11,7 @@ import "./Feed.scss";
 import SinglePost from "../../componenets/SinglePost/SinglePost";
 
 const Feed = ({ session, profile }) => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(null);
 
   const [currentProfile, setCurrentProfile] = useState(null);
   const [feedPosts, setFeedPosts] = useState(null);
@@ -46,6 +46,26 @@ const Feed = ({ session, profile }) => {
     }
   }, [currentProfile]);
 
+  const msToMins = (ms) => {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = ((ms % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+  };
+
+  const persistPost = async (newPost) => {
+    const response = await axios.post(
+      `${process.env.REACT_APP_SERVER_URL}/api/posts/`,
+      newPost
+    );
+  };
+
+  const getFeed = async () => {
+    const response = await axios.get(
+      `${process.env.REACT_APP_SERVER_URL}/api/posts/feed/${currentProfile.spotify_id}`
+    );
+    setFeedPosts([...response.data]);
+  };
+
   const handlePostClick = async () => {
     console.log(serverSession.access_token);
 
@@ -64,33 +84,55 @@ const Feed = ({ session, profile }) => {
         { headers: currentlyPlayingHeader }
       );
 
-      // ass validation and recently-played api call
+      // if user is not playimng music and respponse is null get most recently played
 
-      const newPost = {
-        id: uuid(),
-        spotify_id: serverSession.sessionProfile.id,
-        user_name: serverSession.sessionProfile.display_name,
-        song_name: response.data.item.name,
-        artist_name: response.data.item.album.artists[0].name,
-        album_name: response.data.item.album.album_group,
-        album_cover: response.data.item.album.images[1].url,
-        song_duration: "4:20",
-      };
+      if (response.status !== 200) {
+        try {
+          const response = await axios.get(
+            "https://api.spotify.com/v1/me/player/recently-played?limit=1",
+            { headers: currentlyPlayingHeader }
+          );
 
-      setPosts([newPost]);
+          console.log(response);
+
+          const newPost = {
+            spotify_id: serverSession.sessionProfile.id,
+            user_name: serverSession.sessionProfile.display_name,
+            song_name: response.data.items[0].track.name,
+            song_id: response.data.items[0].track.id,
+
+            artist_name: response.data.items[0].track.album.artists[0].name,
+            album_name: response.data.items[0].track.album.name,
+            album_cover: response.data.items[0].track.album.images[1].url,
+            song_duration: msToMins(response.data.items[0].track.duration_ms),
+          };
+
+          setPosts([newPost]);
+          persistPost(newPost);
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        const newPost = {
+          spotify_id: serverSession.sessionProfile.id,
+          user_name: serverSession.sessionProfile.display_name,
+          song_name: response.data.item.name,
+          song_id: response.data.item.id,
+          artist_name: response.data.item.album.artists[0].name,
+          album_name: response.data.item.album.name,
+          album_cover: response.data.item.album.images[1].url,
+          song_duration: msToMins(response.data.item.duration_ms),
+        };
+
+        setPosts([newPost]);
+        persistPost(newPost);
+      }
     } catch (err) {
       console.log(err);
     }
 
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/posts/feed/${currentProfile.spotify_id}`
-      );
-
-      // console.log(response.data);
-
-      // console.log([...posts, ...response.data]);
-      setFeedPosts([...response.data]);
+      getFeed();
     } catch (error) {
       console.log(error);
     }
@@ -105,32 +147,45 @@ const Feed = ({ session, profile }) => {
     <div className="feed-fragment">
       <Header />
       <div className="feed-wrapper">
-        <button className="feed__post-tune-btn" onClick={handlePostClick}>
-          post your tune
-        </button>
+        {!posts && (
+          <button className="feed__post-tune-btn" onClick={handlePostClick}>
+            post your tune
+          </button>
+        )}
 
         {postClicked && <SinglePost post={postClicked} />}
 
         {posts &&
           posts.map((post) => {
             return (
-              <Link key={post.id} to={``} className="feed__post-link">
-                <MyPost post={post} className="feed__post" />
-              </Link>
+              <MyPost
+                key={uuid()}
+                post={post}
+                className="feed__post feed__post-link"
+              />
             );
           })}
         {feedPosts &&
           feedPosts.map((post) => {
             return (
               <Link
-                key={post.id}
-                to={``}
+                key={uuid()}
                 className="feed__post-link"
+                toggleModal={() => {
+                  toggleModal(post);
+                }}
                 onClick={() => {
                   toggleModal(post);
                 }}
               >
-                <FeedPost post={post} className="feed__post" />
+                <FeedPost
+                  key={uuid()}
+                  post={post}
+                  className="feed__post"
+                  onClick={() => {
+                    toggleModal(post);
+                  }}
+                />
               </Link>
             );
           })}

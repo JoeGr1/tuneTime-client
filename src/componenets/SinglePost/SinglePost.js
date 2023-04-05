@@ -1,9 +1,11 @@
 import React from "react";
 import FeedPost from "../FeedPost/FeedPost";
 
-const SinglePost = ({ post }) => {
+import "./SinglePost.scss";
+
+const SinglePost = ({ post, toggleModal }) => {
   return (
-    <div className="single-post">
+    <div className="single-post" onClick={toggleModal}>
       <div className="single-post__card">
         <FeedPost post={post} />
       </div>

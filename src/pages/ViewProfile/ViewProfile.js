@@ -54,7 +54,6 @@ const ViewProfile = () => {
             <p className="profile__followers">Followers: {followers}</p>
             <button className="profile__follow-btn">Follow</button>
           </div>
-
           {posts &&
             posts.map((post) => {
               return (
