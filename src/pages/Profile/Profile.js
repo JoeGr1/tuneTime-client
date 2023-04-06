@@ -8,11 +8,37 @@ import "./Profile.scss";
 
 const Profile = ({ session, profile }) => {
   const [myPosts, setMyPosts] = useState(null);
+  const [user, setUser] = useState(profile);
+  const [loading, setLoading] = useState(true);
+  const [following, setFollowing] = useState(null);
   const [followers, setFollowers] = useState(null);
+
+  const getFollowing = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/following/${profile.spotify_id}`
+      );
+      console.log(data);
+      setFollowing(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getFollowers = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/following/followers/${profile.spotify_id}`
+      );
+      console.log(data);
+      setFollowers(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     try {
-      setFollowers(6);
       const getMyPosts = async () => {
         const myId = profile.spotify_id;
         console.log(myId);
@@ -31,32 +57,43 @@ const Profile = ({ session, profile }) => {
     }
   }, []);
 
+  useEffect(() => {
+    getFollowing();
+    getFollowers();
+  }, [profile, user]);
+
+  useEffect(() => {
+    if (followers && following) {
+      setLoading(false);
+    }
+  }, [followers, following]);
+
   return (
     <div className="profile-fragment">
       <Header />
-      <div className="profile-wrapper">
-        <div className="profile__info">
-          <h2 className="profile__name">{profile.user_name}</h2>
-          <p className="profile__folllowers">Followers: {followers}</p>
+      {loading && <p>Loading ...</p>}
+      {!loading && (
+        <div className="profile-wrapper">
+          <div className="profile__info">
+            <h2 className="profile__name">{profile.user_name}</h2>
+            <p className="profile__followers">Followers: {followers.length}</p>
+            <p className="profile__following">Following: {following.length}</p>
+          </div>
+
+          {myPosts &&
+            myPosts.map((post) => {
+              return (
+                <Link key={post.id} className="feed__post-link">
+                  <MyPost post={post} className="feed__post-link" />
+                </Link>
+              );
+            })}
+
+          {!myPosts && (
+            <h3 className="profile__no-posts-msg">You Have No Posts</h3>
+          )}
         </div>
-
-        {myPosts &&
-          myPosts.map((post) => {
-            return (
-              <Link key={post.id} to={``} className="feed__post-link">
-                <MyPost post={post} className="feed__post" />
-              </Link>
-            );
-          })}
-
-        {!myPosts && (
-          <h3 className="profile__no-posts-msg">You Have No Posts</h3>
-        )}
-        {/* <button type="button" onClick={handleClick}>
-        test get song
-      </button> */}
-        {/* {currentSong !== null && <p>{currentSong}</p>} */}
-      </div>
+      )}
     </div>
   );
 };

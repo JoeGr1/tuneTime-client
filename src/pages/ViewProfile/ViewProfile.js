@@ -6,16 +6,17 @@ import { Link, useParams } from "react-router-dom";
 
 import "./ViewProfile.scss";
 
-const ViewProfile = () => {
+const ViewProfile = ({ session }) => {
   const [posts, setPosts] = useState(null);
   const [profile, setProfile] = useState(null);
+  const [following, setFollowing] = useState(null);
   const [followers, setFollowers] = useState(null);
+  const [areFollowing, setAreFollowing] = useState(false);
   const [loading, setLoading] = useState(true);
   const user = useParams();
 
   useEffect(() => {
     try {
-      setFollowers(6);
       const getPosts = async () => {
         const { data } = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/api/posts/${user.id}`
@@ -37,10 +38,97 @@ const ViewProfile = () => {
   }, []);
 
   useEffect(() => {
-    if (profile) {
+    if (profile && following && followers) {
       setLoading(false);
     }
-  }, [profile]);
+  }, [followers, followers]);
+
+  const isFollowing = (followList) => {
+    followList.map((follower) => {
+      if (follower.spotify_id === session.sessionProfile.id) {
+        console.log(follower.spotify_id === session.sessionProfile.id);
+        return true;
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (followers && isFollowing(followers)) {
+      setAreFollowing(true);
+    }
+  }, [followers]);
+
+  const getFollowing = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/following/${profile.spotify_id}`
+      );
+      setFollowing(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getFollowers = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/following/followers/${profile.spotify_id}`
+      );
+      setFollowers(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getFollowing();
+    getFollowers();
+  }, [profile, areFollowing]);
+
+  const handleFollowClick = () => {
+    // console.log(profile);
+    // console.log(profile.spotify_id);
+    // console.log(session.sessionProfile.id);
+
+    const postNewFollow = async () => {
+      const newFollowObj = {
+        spotify_id: session.sessionProfile,
+        following_id: profile.spotify_id,
+      };
+
+      try {
+        const res = await axios.post(
+          `${process.env.REACT_APP_SERVER_URL}/api/following/`,
+          newFollowObj
+        );
+        setAreFollowing(true);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    postNewFollow();
+  };
+
+  const handleUnfollowClick = () => {
+    // console.log(profile);
+    // console.log(profile.spotify_id);
+    // console.log(session.sessionProfile.id);
+
+    const unfollow = async () => {
+      const userId = session.sessionProfile.id;
+      const followingId = profile.spotify_id;
+
+      try {
+        const res = await axios.post(
+          `${process.env.REACT_APP_SERVER_URL}/api/following/${userId}/${followingId}`
+        );
+        setAreFollowing(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    unfollow();
+  };
 
   return (
     <div className="profile-fragment">
@@ -51,8 +139,24 @@ const ViewProfile = () => {
         <div className="profile-wrapper">
           <div className="profile__info">
             <h2 className="profile__name">{profile.user_name}</h2>
-            <p className="profile__followers">Followers: {followers}</p>
-            <button className="profile__follow-btn">Follow</button>
+            <p className="profile__followers">Followers: {followers.length}</p>
+            <p className="profile__following">Following: {following.length}</p>
+            {!areFollowing && (
+              <button
+                className="profile__follow-btn"
+                onClick={handleFollowClick}
+              >
+                Follow
+              </button>
+            )}
+            {areFollowing && (
+              <button
+                className="profile__unfollow-btn"
+                onClick={handleUnfollowClick}
+              >
+                Unfollow
+              </button>
+            )}
           </div>
           {posts &&
             posts.map((post) => {
@@ -62,7 +166,7 @@ const ViewProfile = () => {
                   to={`/profile/${post.id}`}
                   className="feed__post-link"
                 >
-                  <MyPost post={post} className="feed__post" />
+                  <MyPost post={post} className="feed__post-link" />
                 </Link>
               );
             })}
@@ -70,10 +174,6 @@ const ViewProfile = () => {
           {!posts && (
             <h3 className="profile__no-posts-msg">You Have No Posts</h3>
           )}
-          {/* <button type="button" onClick={handleClick}>
-        test get song
-      </button> */}
-          {/* {currentSong !== null && <p>{currentSong}</p>} */}
         </div>
       )}
     </div>

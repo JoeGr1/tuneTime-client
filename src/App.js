@@ -21,6 +21,8 @@ function App() {
           `${process.env.REACT_APP_SERVER_URL}/get-session`
         );
 
+        console.log(data);
+
         setSession(data);
 
         const newProfile = {

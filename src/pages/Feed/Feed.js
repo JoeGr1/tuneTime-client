@@ -171,9 +171,7 @@ const Feed = ({ session, profile }) => {
               <Link
                 key={uuid()}
                 className="feed__post-link"
-                toggleModal={() => {
-                  toggleModal(post);
-                }}
+                toggleModal={toggleModal}
                 onClick={() => {
                   toggleModal(post);
                 }}

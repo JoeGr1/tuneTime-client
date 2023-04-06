@@ -29,6 +29,14 @@
     @include flex(space-evenly, center, row);
   }
 
+  &__follow-btn {
+    @include form-btn;
+  }
+
+  &__unfollow-btn {
+    @include form-btn;
+  }
+
   &__post {
     &-link {
       width: 100%;
