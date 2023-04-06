@@ -9,6 +9,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import SinglePost from "./componenets/SinglePost/SinglePost";
 import ViewProfile from "./pages/ViewProfile/ViewProfile";
+import FollowList from "./pages/FollowList/FollowList";
 
 function App() {
   const [session, setSession] = useState(null);
@@ -39,6 +40,8 @@ function App() {
     getSession();
   }, []);
 
+  sessionStorage.setItem("session", JSON.stringify(session));
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -56,7 +59,11 @@ function App() {
             path="/profile/:id"
             element={<ViewProfile session={session} profile={profile} />}
           />
+          <Route path="/profile/:FollowList" element={<FollowList />} />
+          <Route path="/profile/:id/:FollowList" element={<FollowList />} />
+
           <Route path="/discover" element={<Discover />} />
+
           <Route path="/events" element={<Events />} />
         </Routes>
       </BrowserRouter>

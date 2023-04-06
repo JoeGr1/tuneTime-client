@@ -153,7 +153,9 @@ const Feed = ({ session, profile }) => {
           </button>
         )}
 
-        {postClicked && <SinglePost post={postClicked} />}
+        {showModal && (
+          <SinglePost post={postClicked} setShowmodal={setShowmodal} />
+        )}
 
         {posts &&
           posts.map((post) => {
@@ -165,26 +167,18 @@ const Feed = ({ session, profile }) => {
               />
             );
           })}
+
         {feedPosts &&
           feedPosts.map((post) => {
             return (
-              <Link
+              <FeedPost
                 key={uuid()}
-                className="feed__post-link"
-                toggleModal={toggleModal}
-                onClick={() => {
+                post={post}
+                className="feed__post"
+                handleClick={() => {
                   toggleModal(post);
                 }}
-              >
-                <FeedPost
-                  key={uuid()}
-                  post={post}
-                  className="feed__post"
-                  onClick={() => {
-                    toggleModal(post);
-                  }}
-                />
-              </Link>
+              />
             );
           })}
       </div>

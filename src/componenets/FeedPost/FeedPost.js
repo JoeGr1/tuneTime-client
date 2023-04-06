@@ -3,9 +3,9 @@ import React from "react";
 import "./FeedPost.scss";
 import { Link } from "react-router-dom";
 
-const FeedPost = ({ post }) => {
+const FeedPost = ({ post, handleClick }) => {
   return (
-    <div className="post-wrapper">
+    <div onClick={handleClick} className="post-wrapper">
       <Link to={`/profile/${post.spotify_id}`} className="post__user_name">
         {post.user_name}
       </Link>

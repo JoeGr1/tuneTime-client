@@ -6,12 +6,17 @@ import { Link } from "react-router-dom";
 
 import "./Profile.scss";
 
-const Profile = ({ session, profile }) => {
+const Profile = ({ profile }) => {
   const [myPosts, setMyPosts] = useState(null);
   const [user, setUser] = useState(profile);
   const [loading, setLoading] = useState(true);
   const [following, setFollowing] = useState(null);
   const [followers, setFollowers] = useState(null);
+
+  const session = sessionStorage.getItem("session");
+  const sessionObj = JSON.parse(session);
+  const sessionUser = sessionObj.sessionProfile;
+  console.log(sessionUser);
 
   const getFollowing = async () => {
     try {
