@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AccountCard from "../../componenets/AccountCard/AccountCard";
 import Header from "../../componenets/Header/Header";
@@ -6,15 +6,9 @@ import axios from "axios";
 
 import "./Discover.scss";
 
-const Discover = () => {
-  const accounts = [
-    {
-      id: 111,
-      spotify_id: 123,
-      user_name: "accountName",
-    },
-  ];
-  const [matchedAccounts, setMatchedAccounts] = useState(accounts);
+const Discover = ({ session }) => {
+  const [searchInput, setSearchInput] = useState(null);
+  const [matchedAccounts, setMatchedAccounts] = useState([]);
 
   // localhost/users/:name
   //use params in back to query knex db
@@ -27,11 +21,38 @@ const Discover = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_SERVER_URL}/api/users/search/${searchTerm}`
       );
-      setMatchedAccounts(data);
+
+      const list = data.filter((accounts) => {
+        return accounts.spotify_id !== session.sessionProfile.id;
+      });
+
+      setMatchedAccounts(list);
     } catch (err) {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    const getMatched = async () => {
+      try {
+        if (!searchInput) {
+          return;
+        }
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/users/search/${searchInput}`
+        );
+
+        const list = data.filter((accounts) => {
+          return accounts.spotify_id !== session.sessionProfile.id;
+        });
+
+        setMatchedAccounts(list);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getMatched();
+  }, [searchInput]);
 
   return (
     <div className="discover-fragment">
@@ -43,6 +64,7 @@ const Discover = () => {
             name="search"
             className="discover-form__search"
             placeholder="Find More People"
+            onChange={(e) => setSearchInput(e.target.value)}
           />
           <button type="submit" className="discover-form__search-btn">
             Search
@@ -50,7 +72,13 @@ const Discover = () => {
         </form>
         {matchedAccounts.length > 0 &&
           matchedAccounts.map((account) => {
-            return <AccountCard key={account.spotify_id} account={account} />;
+            return (
+              <AccountCard
+                key={account.spotify_id}
+                account={account}
+                session={session}
+              />
+            );
           })}
         {matchedAccounts.length === 0 && (
           <h3 className="discover__no-accounts-msg">User does not Exist </h3>

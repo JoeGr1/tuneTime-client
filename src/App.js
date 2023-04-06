@@ -62,7 +62,7 @@ function App() {
           <Route path="/profile/:FollowList" element={<FollowList />} />
           <Route path="/profile/:id/:FollowList" element={<FollowList />} />
 
-          <Route path="/discover" element={<Discover />} />
+          <Route path="/discover" element={<Discover session={session} />} />
 
           <Route path="/events" element={<Events />} />
         </Routes>

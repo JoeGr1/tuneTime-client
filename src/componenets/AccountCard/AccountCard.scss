@@ -22,4 +22,8 @@
   &__follow-btn {
     @include form-btn;
   }
+
+  &__unfollow-btn {
+    @include form-btn;
+  }
 }

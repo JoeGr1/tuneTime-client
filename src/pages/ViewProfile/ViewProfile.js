@@ -84,10 +84,6 @@ const ViewProfile = ({ session }) => {
   }, [profile, areFollowing]);
 
   const handleFollowClick = () => {
-    // console.log(profile);
-    // console.log(profile.spotify_id);
-    // console.log(session.sessionProfile.id);
-
     const postNewFollow = async () => {
       const newFollowObj = {
         spotify_id: session.sessionProfile.id,
@@ -108,10 +104,6 @@ const ViewProfile = ({ session }) => {
   };
 
   const handleUnfollowClick = () => {
-    // console.log(profile);
-    // console.log(profile.spotify_id);
-    // console.log(session.sessionProfile.id);
-
     const unfollow = async () => {
       const userId = session.sessionProfile.id;
       const followingId = profile.spotify_id;
