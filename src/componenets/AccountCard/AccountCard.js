@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import "./AccountCard.scss";
+import { Link } from "react-router-dom";
 
 const AccountCard = ({ account, session }) => {
   const [followers, setFollowers] = useState(null);
@@ -37,7 +38,7 @@ const AccountCard = ({ account, session }) => {
     }
   }, [followers]);
 
-  const handleFollowClick = () => {
+  const handleFollowClick = (e) => {
     const postNewFollow = async () => {
       const newFollowObj = {
         spotify_id: user,
@@ -55,9 +56,10 @@ const AccountCard = ({ account, session }) => {
       }
     };
     postNewFollow();
+    e.stopPropagation();
   };
 
-  const handleUnfollowClick = () => {
+  const handleUnfollowClick = (e) => {
     const unfollow = async () => {
       try {
         const res = await axios.delete(
@@ -69,11 +71,18 @@ const AccountCard = ({ account, session }) => {
       }
     };
     unfollow();
+    e.stopPropagation();
   };
 
   return (
     <div className="account-card-wrapper">
-      <h2 className="account-card__name">{account.user_name}</h2>
+      <Link
+        key={account.spotify_id}
+        to={`/profile/${account.spotify_id}`}
+        className="account-card__profile-link"
+      >
+        <h2 className="account-card__name">{account.user_name}</h2>
+      </Link>
       {!areFollowing && (
         <button
           className="account-card__follow-btn"

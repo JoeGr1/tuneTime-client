@@ -5,7 +5,6 @@
   &-wrapper {
     border-radius: 2rem;
     border: 1px solid $primary-color;
-    padding: 1.6rem;
     cursor: pointer;
     background-color: #b5e5d5;
     // background-color: #ffffff;
@@ -15,15 +14,26 @@
     width: 100%;
     @include flex(space-between, center, row);
   }
+
+  &__profile-link {
+    text-decoration: none;
+    width: 100%;
+    padding: 1.6rem;
+    padding-right: 0;
+    color: black;
+  }
+
   &__name {
     font-size: 2rem;
   }
 
   &__follow-btn {
     @include form-btn;
+    z-index: 10;
   }
 
   &__unfollow-btn {
     @include form-btn;
+    z-index: 10;
   }
 }
