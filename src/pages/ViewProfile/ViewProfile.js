@@ -44,11 +44,8 @@ const ViewProfile = ({ session }) => {
   }, [followers, followers]);
 
   const isFollowing = (followList) => {
-    followList.map((follower) => {
-      if (follower.spotify_id === session.sessionProfile.id) {
-        console.log(follower.spotify_id === session.sessionProfile.id);
-        return true;
-      }
+    return followList.some((follower) => {
+      return follower.spotify_id === session.sessionProfile.id;
     });
   };
 
@@ -74,6 +71,7 @@ const ViewProfile = ({ session }) => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_SERVER_URL}/api/following/followers/${profile.spotify_id}`
       );
+      console.log(data);
       setFollowers(data);
     } catch (error) {
       console.log(error);
@@ -92,7 +90,7 @@ const ViewProfile = ({ session }) => {
 
     const postNewFollow = async () => {
       const newFollowObj = {
-        spotify_id: session.sessionProfile,
+        spotify_id: session.sessionProfile.id,
         following_id: profile.spotify_id,
       };
 
@@ -117,9 +115,9 @@ const ViewProfile = ({ session }) => {
     const unfollow = async () => {
       const userId = session.sessionProfile.id;
       const followingId = profile.spotify_id;
-
+      console.log(userId, followingId);
       try {
-        const res = await axios.post(
+        const res = await axios.delete(
           `${process.env.REACT_APP_SERVER_URL}/api/following/${userId}/${followingId}`
         );
         setAreFollowing(false);
