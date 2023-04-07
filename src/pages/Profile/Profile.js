@@ -6,24 +6,19 @@ import { Link } from "react-router-dom";
 
 import "./Profile.scss";
 
-const Profile = ({ profile }) => {
+const Profile = () => {
   const [myPosts, setMyPosts] = useState(null);
-  const [user, setUser] = useState(profile);
   const [loading, setLoading] = useState(true);
   const [following, setFollowing] = useState(null);
   const [followers, setFollowers] = useState(null);
 
-  const session = sessionStorage.getItem("session");
-  const sessionObj = JSON.parse(session);
-  const sessionUser = sessionObj.sessionProfile;
-  useEffect(() => {
-    setUser(sessionUser);
-  }, []);
+  const sessionProfile = sessionStorage.getItem("sessionProfile");
+  const user = JSON.parse(sessionProfile);
 
   const getFollowing = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/following/${profile.spotify_id}`
+        `${process.env.REACT_APP_SERVER_URL}/api/following/${user.spotify_id}`
       );
       setFollowing(data);
     } catch (error) {
@@ -34,7 +29,7 @@ const Profile = ({ profile }) => {
   const getFollowers = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/following/followers/${profile.spotify_id}`
+        `${process.env.REACT_APP_SERVER_URL}/api/following/followers/${user.spotify_id}`
       );
       setFollowers(data);
     } catch (error) {
@@ -42,28 +37,20 @@ const Profile = ({ profile }) => {
     }
   };
 
-  useEffect(() => {
+  getFollowing();
+  getFollowers();
+
+  const getMyPosts = async () => {
     try {
-      const getMyPosts = async () => {
-        const myId = profile.spotify_id;
-        console.log(myId);
-
-        const { data } = await axios.get(
-          `${process.env.REACT_APP_SERVER_URL}/api/posts/${myId}`
-        );
-
-        setMyPosts(data);
-      };
-      getMyPosts();
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/posts/${user.spotify_id}`
+      );
+      setMyPosts(data);
     } catch (err) {
       console.log(err);
     }
-  }, []);
-
-  useEffect(() => {
-    getFollowing();
-    getFollowers();
-  }, [user]);
+  };
+  getMyPosts();
 
   useEffect(() => {
     if (followers && following) {
@@ -78,10 +65,10 @@ const Profile = ({ profile }) => {
       {!loading && (
         <div className="profile-wrapper">
           <div className="profile__info">
-            <h2 className="profile__name">{profile.user_name}</h2>
+            <h2 className="profile__name">{user.user_name}</h2>
 
             <Link
-              to={`/profile/${profile.spotify_id}/followers`}
+              to={`/profile/${user.spotify_id}/followers`}
               className="profile__follower-link"
             >
               <p className="profile__followers">
@@ -89,7 +76,7 @@ const Profile = ({ profile }) => {
               </p>
             </Link>
             <Link
-              to={`/profile/${profile.spotify_id}/followers`}
+              to={`/profile/${user.spotify_id}/followers`}
               className="profile__follower-link"
             >
               <p className="profile__following">

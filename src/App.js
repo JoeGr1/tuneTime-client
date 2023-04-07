@@ -52,10 +52,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route
-            path="/feed"
-            element={<Feed session={session} profile={profile} />}
-          />
+          <Route path="/feed" element={<Feed session={session} />} />
           <Route
             path="/profile"
             element={<Profile session={session} profile={profile} />}
