@@ -16,14 +16,15 @@ const Profile = ({ profile }) => {
   const session = sessionStorage.getItem("session");
   const sessionObj = JSON.parse(session);
   const sessionUser = sessionObj.sessionProfile;
-  console.log(sessionUser);
+  useEffect(() => {
+    setUser(sessionUser);
+  }, []);
 
   const getFollowing = async () => {
     try {
       const { data } = await axios.get(
         `${process.env.REACT_APP_SERVER_URL}/api/following/${profile.spotify_id}`
       );
-      console.log(data);
       setFollowing(data);
     } catch (error) {
       console.log(error);
@@ -35,7 +36,6 @@ const Profile = ({ profile }) => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_SERVER_URL}/api/following/followers/${profile.spotify_id}`
       );
-      console.log(data);
       setFollowers(data);
     } catch (error) {
       console.log(error);
@@ -52,8 +52,6 @@ const Profile = ({ profile }) => {
           `${process.env.REACT_APP_SERVER_URL}/api/posts/${myId}`
         );
 
-        console.log(data);
-
         setMyPosts(data);
       };
       getMyPosts();
@@ -65,7 +63,7 @@ const Profile = ({ profile }) => {
   useEffect(() => {
     getFollowing();
     getFollowers();
-  }, [profile, user]);
+  }, [user]);
 
   useEffect(() => {
     if (followers && following) {
@@ -81,8 +79,23 @@ const Profile = ({ profile }) => {
         <div className="profile-wrapper">
           <div className="profile__info">
             <h2 className="profile__name">{profile.user_name}</h2>
-            <p className="profile__followers">Followers: {followers.length}</p>
-            <p className="profile__following">Following: {following.length}</p>
+
+            <Link
+              to={`/profile/${profile.spotify_id}/followers`}
+              className="profile__follower-link"
+            >
+              <p className="profile__followers">
+                Followers: {followers.length}
+              </p>
+            </Link>
+            <Link
+              to={`/profile/${profile.spotify_id}/followers`}
+              className="profile__follower-link"
+            >
+              <p className="profile__following">
+                Following: {following.length}
+              </p>
+            </Link>
           </div>
 
           {myPosts &&

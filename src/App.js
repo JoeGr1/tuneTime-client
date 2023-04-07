@@ -59,8 +59,8 @@ function App() {
             path="/profile/:id"
             element={<ViewProfile session={session} profile={profile} />}
           />
-          <Route path="/profile/:FollowList" element={<FollowList />} />
-          <Route path="/profile/:id/:FollowList" element={<FollowList />} />
+
+          <Route path="/profile/:id/:listType" element={<FollowList />} />
 
           <Route path="/discover" element={<Discover session={session} />} />
 

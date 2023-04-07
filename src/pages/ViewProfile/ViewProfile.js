@@ -129,8 +129,22 @@ const ViewProfile = ({ session }) => {
         <div className="profile-wrapper">
           <div className="profile__info">
             <h2 className="profile__name">{profile.user_name}</h2>
-            <p className="profile__followers">Followers: {followers.length}</p>
-            <p className="profile__following">Following: {following.length}</p>
+            <Link
+              to={`/profile/${profile.spotify_id}/followers`}
+              className="profile__follower-link"
+            >
+              <p className="profile__followers">
+                Followers: {followers.length}
+              </p>
+            </Link>
+            <Link
+              to={`/profile/${profile.spotify_id}/following`}
+              className="profile__follower-link"
+            >
+              <p className="profile__following">
+                Following: {following.length}
+              </p>
+            </Link>
             {!areFollowing && (
               <button
                 className="profile__follow-btn"
