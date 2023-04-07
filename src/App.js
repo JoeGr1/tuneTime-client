@@ -22,8 +22,6 @@ function App() {
           `${process.env.REACT_APP_SERVER_URL}/get-session`
         );
 
-        console.log(data);
-
         setSession(data);
 
         const newProfile = {
@@ -40,7 +38,14 @@ function App() {
     getSession();
   }, []);
 
-  sessionStorage.setItem("session", JSON.stringify(session));
+  useEffect(() => {
+    if (profile) {
+      const { spotify_id, user_name } = profile;
+
+      const sessionProfile = { spotify_id: spotify_id, user_name: user_name };
+      sessionStorage.setItem("sessionProfile", JSON.stringify(sessionProfile));
+    }
+  }, [profile, session]);
 
   return (
     <div className="App">

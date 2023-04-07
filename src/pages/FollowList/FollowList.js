@@ -3,10 +3,7 @@ import { useParams } from "react-router-dom";
 import Header from "../../componenets/Header/Header";
 
 const FollowList = () => {
-  const user = useParams();
-  console.log(user);
   const { id: spotify_id, listType } = useParams();
-  console.log(listType);
 
   const session = sessionStorage.getItem("session");
   const sessionObj = JSON.parse(session);

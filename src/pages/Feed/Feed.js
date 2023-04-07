@@ -10,40 +10,33 @@ import axios from "axios";
 import "./Feed.scss";
 import SinglePost from "../../componenets/SinglePost/SinglePost";
 
-const Feed = ({ session, profile }) => {
+const Feed = ({ session }) => {
   const [posts, setPosts] = useState(null);
 
   const [currentProfile, setCurrentProfile] = useState(null);
   const [feedPosts, setFeedPosts] = useState(null);
-  const [serverSession, setServerSession] = useState({});
   const [showModal, setShowmodal] = useState(false);
   const [postClicked, setPostClicked] = useState(null);
 
-  useEffect(() => {
-    setServerSession(session);
-    setCurrentProfile(profile);
-  });
+  const sessionProfile = sessionStorage.getItem("sessionProfile");
+  const user = JSON.parse(sessionProfile);
 
   useEffect(() => {
-    const user = currentProfile;
+    setCurrentProfile(user);
+  }, []);
 
-    console.log(user);
-
-    if (!user) {
-      return;
-    } else {
-      const createUser = async () => {
-        try {
-          const response = await axios.post(
-            `${process.env.REACT_APP_SERVER_URL}/api/users/create-user`,
-            user
-          );
-        } catch (err) {
-          console.log(err);
-        }
-      };
+  useEffect(() => {
+    const createUser = async () => {
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_SERVER_URL}/api/users/create-user`,
+          user
+        );
+      } catch (err) {
+        console.log(err);
+      }
       createUser();
-    }
+    };
   }, [currentProfile]);
 
   const msToMins = (ms) => {
@@ -61,21 +54,19 @@ const Feed = ({ session, profile }) => {
 
   const getFeed = async () => {
     const response = await axios.get(
-      `${process.env.REACT_APP_SERVER_URL}/api/posts/feed/${currentProfile.spotify_id}`
+      `${process.env.REACT_APP_SERVER_URL}/api/posts/feed/${user.spotify_id}`
     );
     setFeedPosts([...response.data]);
   };
 
   const handlePostClick = async () => {
-    console.log(serverSession.access_token);
-
-    if (!serverSession.access_token) {
+    if (!session.access_token) {
       console.log("Could not find Access Tken");
       return;
     }
 
     const currentlyPlayingHeader = {
-      Authorization: `Bearer ${serverSession.access_token}`,
+      Authorization: `Bearer ${session.access_token}`,
     };
 
     try {
@@ -85,7 +76,6 @@ const Feed = ({ session, profile }) => {
       );
 
       // if user is not playimng music and respponse is null get most recently played
-
       if (response.status !== 200) {
         try {
           const response = await axios.get(
@@ -93,11 +83,9 @@ const Feed = ({ session, profile }) => {
             { headers: currentlyPlayingHeader }
           );
 
-          console.log(response);
-
           const newPost = {
-            spotify_id: serverSession.sessionProfile.id,
-            user_name: serverSession.sessionProfile.display_name,
+            spotify_id: user.spotify_id,
+            user_name: user.user_name,
             song_name: response.data.items[0].track.name,
             song_id: response.data.items[0].track.id,
 
@@ -114,8 +102,8 @@ const Feed = ({ session, profile }) => {
         }
       } else {
         const newPost = {
-          spotify_id: serverSession.sessionProfile.id,
-          user_name: serverSession.sessionProfile.display_name,
+          spotify_id: user.spotify_id,
+          user_name: user.user_name,
           song_name: response.data.item.name,
           song_id: response.data.item.id,
           artist_name: response.data.item.album.artists[0].name,
