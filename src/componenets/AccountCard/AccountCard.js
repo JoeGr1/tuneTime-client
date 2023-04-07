@@ -7,9 +7,16 @@ import { Link } from "react-router-dom";
 const AccountCard = ({ account }) => {
   const [followers, setFollowers] = useState(null);
   const [areFollowing, setAreFollowing] = useState(false);
+  const [isUser, setIsUser] = useState(false);
 
   const sessionProfile = sessionStorage.getItem("sessionProfile");
   const user = JSON.parse(sessionProfile);
+
+  useEffect(() => {
+    if (account.spotify_id === user.spotify_id) {
+      setIsUser(true);
+    }
+  }, []);
 
   const getFollowers = async () => {
     try {
@@ -56,7 +63,6 @@ const AccountCard = ({ account }) => {
       }
     };
     postNewFollow();
-    e.stopPropagation();
   };
 
   const handleUnfollowClick = (e) => {
@@ -83,7 +89,7 @@ const AccountCard = ({ account }) => {
       >
         <h2 className="account-card__name">{account.user_name}</h2>
       </Link>
-      {!areFollowing && (
+      {!isUser && !areFollowing && (
         <button
           className="account-card__follow-btn"
           onClick={handleFollowClick}
@@ -91,7 +97,7 @@ const AccountCard = ({ account }) => {
           Follow
         </button>
       )}
-      {areFollowing && (
+      {!isUser && areFollowing && (
         <button
           className="account-card__unfollow-btn"
           onClick={handleUnfollowClick}
@@ -99,6 +105,7 @@ const AccountCard = ({ account }) => {
           Unfollow
         </button>
       )}
+      {isUser && <h3 className="account-card__is-user">You</h3>}
     </div>
   );
 };

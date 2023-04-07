@@ -6,7 +6,7 @@ import axios from "axios";
 
 import "./Discover.scss";
 
-const Discover = ({ session }) => {
+const Discover = () => {
   const [searchInput, setSearchInput] = useState(null);
   const [matchedAccounts, setMatchedAccounts] = useState([]);
 

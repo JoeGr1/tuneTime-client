@@ -9,8 +9,13 @@
     cursor: pointer;
     background-color: $background-color;
     color: $primary-color-alt;
-    width: 100%;
+    width: 90%;
     @include flex(space-between, center, row);
+
+    &:hover {
+      transform: scale(1.05);
+      transition: all 0.5s;
+    }
   }
 
   &__text-wrapper {

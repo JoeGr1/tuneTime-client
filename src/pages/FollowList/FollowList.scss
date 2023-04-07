@@ -1,2 +1,8 @@
 @use "../../styles/partials/mixins" as *;
 @use "../../styles/partials/variables" as *;
+
+.follow-list {
+  &-wrapper {
+    @include flex(center, center, column);
+  }
+}

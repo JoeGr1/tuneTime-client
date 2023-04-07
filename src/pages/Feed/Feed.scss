@@ -29,6 +29,8 @@
 
   &__post {
     &-link {
+      @include flex(center, center, column);
+
       width: 100%;
       text-decoration: none;
       color: inherit;

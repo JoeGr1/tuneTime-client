@@ -76,7 +76,7 @@ const Profile = () => {
               </p>
             </Link>
             <Link
-              to={`/profile/${user.spotify_id}/followers`}
+              to={`/profile/${user.spotify_id}/following`}
               className="profile__follower-link"
             >
               <p className="profile__following">

@@ -2,6 +2,7 @@
 @use "../../styles/partials/variables" as *;
 
 .single-post {
+  @include flex(center, center, column);
   position: fixed;
   left: 0;
   top: 0;
@@ -14,6 +15,8 @@
   z-index: 10;
 
   &__card {
+    @include flex(center, center, column);
+
     background-color: $primary-color;
     padding: 4rem;
     border-radius: 2rem;

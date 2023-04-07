@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import Header from "../../componenets/Header/Header";
 import FeedPost from "../../componenets/FeedPost/FeedPost";
