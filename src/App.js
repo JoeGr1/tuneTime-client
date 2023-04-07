@@ -53,14 +53,8 @@ function App() {
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/feed" element={<Feed session={session} />} />
-          <Route
-            path="/profile"
-            element={<Profile session={session} profile={profile} />}
-          />
-          <Route
-            path="/profile/:id"
-            element={<ViewProfile session={session} profile={profile} />}
-          />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:id" element={<ViewProfile />} />
 
           <Route path="/profile/:id/:listType" element={<FollowList />} />
 

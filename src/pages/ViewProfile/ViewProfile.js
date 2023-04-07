@@ -6,27 +6,30 @@ import { Link, useParams } from "react-router-dom";
 
 import "./ViewProfile.scss";
 
-const ViewProfile = ({ session }) => {
-  const [posts, setPosts] = useState(null);
+const ViewProfile = () => {
+  const [posts, setPosts] = useState([]);
   const [profile, setProfile] = useState(null);
   const [following, setFollowing] = useState(null);
   const [followers, setFollowers] = useState(null);
   const [areFollowing, setAreFollowing] = useState(false);
   const [loading, setLoading] = useState(true);
-  const user = useParams();
+  const displayedProfile = useParams();
+
+  const sessionProfile = sessionStorage.getItem("sessionProfile");
+  const user = JSON.parse(sessionProfile);
 
   useEffect(() => {
     try {
       const getPosts = async () => {
         const { data } = await axios.get(
-          `${process.env.REACT_APP_SERVER_URL}/api/posts/${user.id}`
+          `${process.env.REACT_APP_SERVER_URL}/api/posts/${displayedProfile.id}`
         );
         setPosts(data);
       };
 
       const getProfile = async () => {
         const { data } = await axios.get(
-          `${process.env.REACT_APP_SERVER_URL}/api/users/${user.id}`
+          `${process.env.REACT_APP_SERVER_URL}/api/users/${displayedProfile.id}`
         );
         setProfile(...data);
       };
@@ -45,7 +48,7 @@ const ViewProfile = ({ session }) => {
 
   const isFollowing = (followList) => {
     return followList.some((follower) => {
-      return follower.spotify_id === session.sessionProfile.id;
+      return follower.spotify_id === user.spotify_id;
     });
   };
 
@@ -56,25 +59,28 @@ const ViewProfile = ({ session }) => {
   }, [followers]);
 
   const getFollowing = async () => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/following/${profile.spotify_id}`
-      );
-      setFollowing(data);
-    } catch (error) {
-      console.log(error);
+    if (profile) {
+      try {
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/following/${profile.spotify_id}`
+        );
+        setFollowing(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   const getFollowers = async () => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/following/followers/${profile.spotify_id}`
-      );
-      console.log(data);
-      setFollowers(data);
-    } catch (error) {
-      console.log(error);
+    if (profile) {
+      try {
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/following/followers/${profile.spotify_id}`
+        );
+        setFollowers(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -86,7 +92,7 @@ const ViewProfile = ({ session }) => {
   const handleFollowClick = () => {
     const postNewFollow = async () => {
       const newFollowObj = {
-        spotify_id: session.sessionProfile.id,
+        spotify_id: user.spotify_id,
         following_id: profile.spotify_id,
       };
 
@@ -105,9 +111,8 @@ const ViewProfile = ({ session }) => {
 
   const handleUnfollowClick = () => {
     const unfollow = async () => {
-      const userId = session.sessionProfile.id;
+      const userId = user.spotify_id;
       const followingId = profile.spotify_id;
-      console.log(userId, followingId);
       try {
         const res = await axios.delete(
           `${process.env.REACT_APP_SERVER_URL}/api/following/${userId}/${followingId}`
@@ -162,7 +167,7 @@ const ViewProfile = ({ session }) => {
               </button>
             )}
           </div>
-          {posts &&
+          {posts.length > 0 &&
             posts.map((post) => {
               return (
                 <Link
@@ -175,8 +180,10 @@ const ViewProfile = ({ session }) => {
               );
             })}
 
-          {!posts && (
-            <h3 className="profile__no-posts-msg">You Have No Posts</h3>
+          {posts.length === 0 && (
+            <h3 className="profile__no-posts-msg">
+              {profile.user_name} has no Posts
+            </h3>
           )}
         </div>
       )}
