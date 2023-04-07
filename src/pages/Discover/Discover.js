@@ -10,6 +10,9 @@ const Discover = ({ session }) => {
   const [searchInput, setSearchInput] = useState(null);
   const [matchedAccounts, setMatchedAccounts] = useState([]);
 
+  const sessionProfile = sessionStorage.getItem("sessionProfile");
+  const user = JSON.parse(sessionProfile);
+
   // localhost/users/:name
   //use params in back to query knex db
 
@@ -23,7 +26,7 @@ const Discover = ({ session }) => {
       );
 
       const list = data.filter((accounts) => {
-        return accounts.spotify_id !== session.sessionProfile.id;
+        return accounts.spotify_id !== user.spotify_id;
       });
 
       setMatchedAccounts(list);
@@ -42,11 +45,11 @@ const Discover = ({ session }) => {
           `${process.env.REACT_APP_SERVER_URL}/api/users/search/${searchInput}`
         );
 
-        const list = data.filter((accounts) => {
-          return accounts.spotify_id !== session.sessionProfile.id;
+        const matchedList = data.filter((accounts) => {
+          return accounts.spotify_id !== user.spotify_id;
         });
 
-        setMatchedAccounts(list);
+        setMatchedAccounts(matchedList);
       } catch (err) {
         console.log(err);
       }
@@ -72,13 +75,7 @@ const Discover = ({ session }) => {
         </form>
         {matchedAccounts.length > 0 &&
           matchedAccounts.map((account) => {
-            return (
-              <AccountCard
-                key={account.spotify_id}
-                account={account}
-                session={session}
-              />
-            );
+            return <AccountCard key={account.spotify_id} account={account} />;
           })}
         {matchedAccounts.length === 0 && (
           <h3 className="discover__no-accounts-msg">User does not Exist </h3>

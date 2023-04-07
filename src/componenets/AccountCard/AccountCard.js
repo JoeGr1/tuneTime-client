@@ -4,17 +4,17 @@ import axios from "axios";
 import "./AccountCard.scss";
 import { Link } from "react-router-dom";
 
-const AccountCard = ({ account, session }) => {
+const AccountCard = ({ account }) => {
   const [followers, setFollowers] = useState(null);
   const [areFollowing, setAreFollowing] = useState(false);
 
-  const profile = account.spotify_id;
-  const user = session.sessionProfile.id;
+  const sessionProfile = sessionStorage.getItem("sessionProfile");
+  const user = JSON.parse(sessionProfile);
 
   const getFollowers = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/following/followers/${profile}`
+        `${process.env.REACT_APP_SERVER_URL}/api/following/followers/${account.spotify_id}`
       );
       setFollowers(data);
     } catch (error) {
@@ -28,7 +28,7 @@ const AccountCard = ({ account, session }) => {
 
   const isFollowing = (followList) => {
     return followList.some((follower) => {
-      return follower.spotify_id === user;
+      return follower.spotify_id === user.spotify_id;
     });
   };
 
@@ -41,8 +41,8 @@ const AccountCard = ({ account, session }) => {
   const handleFollowClick = (e) => {
     const postNewFollow = async () => {
       const newFollowObj = {
-        spotify_id: user,
-        following_id: profile,
+        spotify_id: user.spotify_id,
+        following_id: account.spotify_id,
       };
 
       try {
@@ -63,7 +63,7 @@ const AccountCard = ({ account, session }) => {
     const unfollow = async () => {
       try {
         const res = await axios.delete(
-          `${process.env.REACT_APP_SERVER_URL}/api/following/${user}/${profile}`
+          `${process.env.REACT_APP_SERVER_URL}/api/following/${user.spotify_id}/${account.spotify_id}`
         );
         setAreFollowing(false);
       } catch (error) {
