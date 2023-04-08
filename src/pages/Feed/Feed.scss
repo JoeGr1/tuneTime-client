@@ -27,6 +27,10 @@
     width: 17rem;
   }
 
+  &__title {
+    margin: 1.5rem 0;
+  }
+
   &__post {
     &-link {
       @include flex(center, center, column);

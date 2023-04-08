@@ -38,8 +38,10 @@ const Profile = () => {
     }
   };
 
-  getFollowing();
-  getFollowers();
+  useEffect(() => {
+    getFollowing();
+    getFollowers();
+  }, []);
 
   const getMyPosts = async () => {
     try {
@@ -51,7 +53,9 @@ const Profile = () => {
       console.log(err);
     }
   };
-  getMyPosts();
+  useEffect(() => {
+    getMyPosts();
+  }, []);
 
   useEffect(() => {
     if (followers && following) {

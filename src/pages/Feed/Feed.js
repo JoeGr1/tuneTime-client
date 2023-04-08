@@ -13,7 +13,6 @@ import "./Feed.scss";
 import "animate.css";
 
 const Feed = ({ session }) => {
-  console.log(session);
   const [posts, setPosts] = useState(null);
 
   const [currentProfile, setCurrentProfile] = useState(null);
@@ -91,11 +90,11 @@ const Feed = ({ session }) => {
             user_name: user.user_name,
             song_name: response.data.items[0].track.name,
             song_id: response.data.items[0].track.id,
-
             artist_name: response.data.items[0].track.album.artists[0].name,
             album_name: response.data.items[0].track.album.name,
             album_cover: response.data.items[0].track.album.images[1].url,
             song_duration: msToMins(response.data.items[0].track.duration_ms),
+            likes: "0",
           };
 
           setPosts([newPost]);
@@ -113,6 +112,7 @@ const Feed = ({ session }) => {
           album_name: response.data.item.album.name,
           album_cover: response.data.item.album.images[1].url,
           song_duration: msToMins(response.data.item.duration_ms),
+          likes: "0",
         };
 
         setPosts([newPost]);
@@ -140,12 +140,13 @@ const Feed = ({ session }) => {
       <div className="feed-wrapper">
         {!posts && (
           <button
-            className="feed__post-tune-btn animate__animated animate__rubberBand animate__delay-3s"
+            className="feed__post-tune-btn animate__animated animate__rubberBand animate__delay-2s"
             onClick={handlePostClick}
           >
             post your tune
           </button>
         )}
+        {posts && <h2 className="feed__title">Your Feed</h2>}
 
         {showModal && (
           <SinglePost post={postClicked} setShowmodal={setShowmodal} />
