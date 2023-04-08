@@ -26,7 +26,8 @@ const ViewProfile = () => {
         const { data } = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/api/posts/${displayedProfile.id}`
         );
-        setPosts(data);
+        const list = data.reverse();
+        setPosts(list);
       };
 
       const getProfile = async () => {

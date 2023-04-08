@@ -24,6 +24,14 @@ const Feed = ({ session }) => {
   const user = JSON.parse(sessionProfile);
 
   useEffect(() => {
+    const sessionPost = sessionStorage.getItem("sessionPost");
+    if (sessionPost) {
+      const post = JSON.parse(sessionPost);
+      setPosts([post]);
+    }
+  }, []);
+
+  useEffect(() => {
     setCurrentProfile(user);
   }, []);
 
@@ -99,6 +107,8 @@ const Feed = ({ session }) => {
 
           setPosts([newPost]);
           persistPost(newPost);
+
+          sessionStorage.setItem("sessionPost", JSON.stringify(newPost));
         } catch (err) {
           console.log(err);
         }
@@ -117,17 +127,23 @@ const Feed = ({ session }) => {
 
         setPosts([newPost]);
         persistPost(newPost);
+
+        sessionStorage.setItem("sessionPost", JSON.stringify(newPost));
       }
     } catch (err) {
       console.log(err);
     }
-
-    try {
-      getFeed();
-    } catch (error) {
-      console.log(error);
-    }
   };
+
+  useEffect(() => {
+    if (posts) {
+      try {
+        getFeed();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [posts]);
 
   const toggleModal = (post) => {
     setShowmodal(!showModal);

@@ -48,7 +48,9 @@ const Profile = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_SERVER_URL}/api/posts/${user.spotify_id}`
       );
-      setMyPosts(data);
+      const list = data.reverse();
+
+      setMyPosts(list);
     } catch (err) {
       console.log(err);
     }
