@@ -136,22 +136,24 @@ const ViewProfile = () => {
         <div className="profile-wrapper">
           <div className="profile__info">
             <h2 className="profile__name">{profile.user_name}</h2>
-            <Link
-              to={`/profile/${profile.spotify_id}/followers`}
-              className="profile__follower-link"
-            >
-              <p className="profile__followers">
-                Followers: {followers.length}
-              </p>
-            </Link>
-            <Link
-              to={`/profile/${profile.spotify_id}/following`}
-              className="profile__follower-link"
-            >
-              <p className="profile__following">
-                Following: {following.length}
-              </p>
-            </Link>
+            <div className="profile__follow-info profile__follow-info--view">
+              <Link
+                to={`/profile/${profile.spotify_id}/followers`}
+                className="profile__followers-link"
+              >
+                <p className="profile__followers">
+                  Followers: {followers.length}
+                </p>
+              </Link>
+              <Link
+                to={`/profile/${profile.spotify_id}/following`}
+                className="profile__followers-link"
+              >
+                <p className="profile__following">
+                  Following: {following.length}
+                </p>
+              </Link>
+            </div>
             {!areFollowing && (
               <button
                 className="profile__follow-btn"

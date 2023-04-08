@@ -13,6 +13,7 @@ import "./Feed.scss";
 import "animate.css";
 
 const Feed = ({ session }) => {
+  console.log(session);
   const [posts, setPosts] = useState(null);
 
   const [currentProfile, setCurrentProfile] = useState(null);
@@ -167,7 +168,7 @@ const Feed = ({ session }) => {
               <FeedPost
                 key={uuid()}
                 post={post}
-                className="feed__post"
+                className="feed__post-link"
                 handleClick={() => {
                   toggleModal(post);
                 }}

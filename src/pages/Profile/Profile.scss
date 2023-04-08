@@ -23,10 +23,32 @@
   }
 
   &__info {
-    width: 100%;
-    border-radius: 5px;
+    width: 95%;
+    border-radius: 20px;
     border: 0.5px solid $primary-color;
-    @include flex(space-evenly, center, row);
+    @include flex(left, center, row);
+  }
+
+  &__name {
+    width: 50%;
+    padding: 2rem 0 2rem 2rem;
+  }
+
+  &__follow-info {
+    width: 50%;
+    padding: 2rem 2rem 2rem 0;
+    &--view {
+      width: 25%;
+    }
+  }
+
+  &__followers,
+  &__following {
+    &-link {
+      text-decoration: none;
+    }
+    padding: 0.2rem;
+    color: $primary-color;
   }
 
   &__post {

@@ -67,23 +67,24 @@ const Profile = () => {
         <div className="profile-wrapper">
           <div className="profile__info">
             <h2 className="profile__name">{user.user_name}</h2>
-
-            <Link
-              to={`/profile/${user.spotify_id}/followers`}
-              className="profile__follower-link"
-            >
-              <p className="profile__followers">
-                Followers: {followers.length}
-              </p>
-            </Link>
-            <Link
-              to={`/profile/${user.spotify_id}/following`}
-              className="profile__follower-link"
-            >
-              <p className="profile__following">
-                Following: {following.length}
-              </p>
-            </Link>
+            <div className="profile__follow-info">
+              <Link
+                to={`/profile/${user.spotify_id}/followers`}
+                className="profile__followers-link"
+              >
+                <p className="profile__followers">
+                  Followers: {followers.length}
+                </p>
+              </Link>
+              <Link
+                to={`/profile/${user.spotify_id}/following`}
+                className="profile__followers-link"
+              >
+                <p className="profile__following">
+                  Following: {following.length}
+                </p>
+              </Link>
+            </div>
           </div>
 
           {myPosts &&

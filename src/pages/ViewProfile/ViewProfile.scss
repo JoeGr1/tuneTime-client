@@ -2,33 +2,6 @@
 @use "../../styles/partials/variables" as *;
 
 .profile {
-  &-fragment {
-    margin-top: 3rem;
-  }
-
-  &-wrapper {
-    @include flex(center, center, column);
-    margin: $mobile-margin;
-
-    @include tablet {
-      margin: $tablet-margin;
-      margin-top: 1.5rem;
-    }
-
-    @include desktop {
-      margin: $desktop-margin;
-      max-width: 102rem;
-      margin-top: 1.5rem;
-    }
-  }
-
-  &__info {
-    width: 100%;
-    border-radius: 5px;
-    border: 0.5px solid $primary-color;
-    @include flex(space-evenly, center, row);
-  }
-
   &__follow-btn {
     @include form-btn;
   }
