@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AccountCard from "../../componenets/AccountCard/AccountCard";
 import Header from "../../componenets/Header/Header";
+import Footer from "../../componenets/Footer/Footer";
+
 import axios from "axios";
 
 import "./Discover.scss";
@@ -9,6 +11,7 @@ import "./Discover.scss";
 const Discover = () => {
   const [searchInput, setSearchInput] = useState(null);
   const [matchedAccounts, setMatchedAccounts] = useState([]);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const sessionProfile = sessionStorage.getItem("sessionProfile");
   const user = JSON.parse(sessionProfile);
@@ -33,6 +36,8 @@ const Discover = () => {
     } catch (err) {
       console.log(err);
     }
+
+    setFormSubmitted(true);
   };
 
   useEffect(() => {
@@ -77,10 +82,11 @@ const Discover = () => {
           matchedAccounts.map((account) => {
             return <AccountCard key={account.spotify_id} account={account} />;
           })}
-        {matchedAccounts.length === 0 && (
+        {formSubmitted && matchedAccounts.length === 0 && (
           <h3 className="discover__no-accounts-msg">User does not Exist </h3>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

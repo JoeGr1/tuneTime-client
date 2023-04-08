@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "../../componenets/Header/Header";
 import MyPost from "../../componenets/MyPost/MyPost";
+import Footer from "../../componenets/Footer/Footer";
 import { Link } from "react-router-dom";
 
 import "./Profile.scss";
@@ -99,6 +100,7 @@ const Profile = () => {
           )}
         </div>
       )}
+      <Footer />
     </div>
   );
 };

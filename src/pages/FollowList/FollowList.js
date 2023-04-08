@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import Header from "../../componenets/Header/Header";
 import AccountCard from "../../componenets/AccountCard/AccountCard";
 
+import Footer from "../../componenets/Footer/Footer";
+
 import axios from "axios";
 import { v4 as uuid } from "uuid";
 
@@ -88,6 +90,7 @@ const FollowList = () => {
             })}
         </div>
       )}
+      <Footer />
     </div>
   );
 };

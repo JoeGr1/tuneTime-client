@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "../../componenets/Header/Header";
 import MyPost from "../../componenets/MyPost/MyPost";
+import Footer from "../../componenets/Footer/Footer";
+
 import { Link, useParams } from "react-router-dom";
 
 import "./ViewProfile.scss";
@@ -187,6 +189,7 @@ const ViewProfile = () => {
           )}
         </div>
       )}
+      <Footer />
     </div>
   );
 };

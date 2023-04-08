@@ -4,11 +4,13 @@ import { v4 as uuid } from "uuid";
 import Header from "../../componenets/Header/Header";
 import FeedPost from "../../componenets/FeedPost/FeedPost";
 import MyPost from "../../componenets/MyPost/MyPost";
+import SinglePost from "../../componenets/SinglePost/SinglePost";
+import Footer from "../../componenets/Footer/Footer";
 
 import axios from "axios";
 
 import "./Feed.scss";
-import SinglePost from "../../componenets/SinglePost/SinglePost";
+import "animate.css";
 
 const Feed = ({ session }) => {
   const [posts, setPosts] = useState(null);
@@ -136,7 +138,10 @@ const Feed = ({ session }) => {
       <Header />
       <div className="feed-wrapper">
         {!posts && (
-          <button className="feed__post-tune-btn" onClick={handlePostClick}>
+          <button
+            className="feed__post-tune-btn animate__animated animate__rubberBand animate__delay-3s"
+            onClick={handlePostClick}
+          >
             post your tune
           </button>
         )}
@@ -170,6 +175,7 @@ const Feed = ({ session }) => {
             );
           })}
       </div>
+      <Footer />
     </div>
   );
 };
