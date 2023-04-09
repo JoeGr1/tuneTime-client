@@ -40,10 +40,11 @@ const SinglePost = ({ post, setShowmodal }) => {
 
     try {
       await POST_COMMENT(newComment);
+      const { data } = await GET_COMMENTS_BY_POST_ID(post.id);
+      setComments(data);
     } catch (error) {
       console.log(error);
     }
-    setComments([...comments, newComment]);
   };
 
   const handleDelete = async (commentId, commentSpotifyId) => {
@@ -59,7 +60,10 @@ const SinglePost = ({ post, setShowmodal }) => {
   };
 
   return (
-    <div className="single-post">
+    <div
+      className="single-post"
+      // onClick={() => setShowmodal(false)}
+    >
       <div className="single-post__card">
         <p className="single-post__close" onClick={() => setShowmodal(false)}>
           Close
@@ -75,6 +79,7 @@ const SinglePost = ({ post, setShowmodal }) => {
                   key={comment.id}
                   comment={comment}
                   handleDelete={handleDelete}
+                  className="comments__comment"
                 />
               );
             })}

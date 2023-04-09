@@ -13,6 +13,7 @@ import "./Feed.scss";
 import "animate.css";
 import {
   GET_FEED_BY_USER_ID,
+  GET_POSTS_BY_USER_ID,
   POST_NEW_POST,
   POST_USER,
 } from "../../utils/apiCalls";
@@ -132,9 +133,13 @@ const Feed = ({ session }) => {
             likes: "0",
           };
 
-          setPosts([newPost]);
           persistPost(newPost);
 
+          const { data } = await GET_POSTS_BY_USER_ID(user.spotify_id);
+
+          console.log(data[0]);
+
+          setPosts([data[0]]);
           sessionStorage.setItem("sessionPost", JSON.stringify(newPost));
         } catch (err) {
           console.log(err);
@@ -152,9 +157,14 @@ const Feed = ({ session }) => {
           likes: "0",
         };
 
-        setPosts([newPost]);
         persistPost(newPost);
 
+        const { data } = await GET_POSTS_BY_USER_ID(user.spotify_id);
+
+        console.log(data);
+        console.log(data[data.length - 1]);
+
+        setPosts([data[data.length - 1]]);
         sessionStorage.setItem("sessionPost", JSON.stringify(newPost));
       }
     } catch (err) {
