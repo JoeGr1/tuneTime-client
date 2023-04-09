@@ -33,7 +33,17 @@ const Feed = ({ session }) => {
     const sessionPost = sessionStorage.getItem("sessionPost");
     if (sessionPost) {
       const post = JSON.parse(sessionPost);
-      setPosts([post]);
+
+      const getSessionPost = async () => {
+        try {
+          const { data } = await GET_POSTS_BY_USER_ID(user.spotify_id);
+
+          setPosts([data[data.length - 1]]);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getSessionPost();
     }
   }, []);
 
@@ -137,9 +147,7 @@ const Feed = ({ session }) => {
 
           const { data } = await GET_POSTS_BY_USER_ID(user.spotify_id);
 
-          console.log(data[0]);
-
-          setPosts([data[0]]);
+          setPosts([data[data.length - 1]]);
           sessionStorage.setItem("sessionPost", JSON.stringify(newPost));
         } catch (err) {
           console.log(err);
@@ -160,9 +168,6 @@ const Feed = ({ session }) => {
         persistPost(newPost);
 
         const { data } = await GET_POSTS_BY_USER_ID(user.spotify_id);
-
-        console.log(data);
-        console.log(data[data.length - 1]);
 
         setPosts([data[data.length - 1]]);
         sessionStorage.setItem("sessionPost", JSON.stringify(newPost));
