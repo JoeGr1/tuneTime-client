@@ -34,7 +34,9 @@ const FeedPost = ({ post, handleClick }) => {
         setIsLiked(response.data.liked);
       };
       doesUserLikePost();
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   const handleLike = async () => {
@@ -44,7 +46,9 @@ const FeedPost = ({ post, handleClick }) => {
 
     try {
       const response = await POST_LIKE_TO_POST(post.id, likeUpdate);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
 
     setLikes(likes + 1);
     setIsLiked(!isLiked);

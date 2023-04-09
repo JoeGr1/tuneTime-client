@@ -75,3 +75,17 @@ export const POST_NEW_FOLLOW = (followObj) => {
 export const DELETE_FOLLOW = (userId, followingId) => {
   return axios.delete(`${backendURL}/following/${userId}/${followingId}`);
 };
+
+// comments
+
+export const GET_COMMENTS_BY_POST_ID = (postId) => {
+  return axios.get(`${backendURL}/comments/${postId}`);
+};
+
+export const POST_COMMENT = (newComment) => {
+  return axios.post(`${backendURL}/comments/`, newComment);
+};
+
+export const DELETE_COMMENT_BY_ID = (commentId) => {
+  return axios.delete(`${backendURL}/comments/${commentId}`);
+};

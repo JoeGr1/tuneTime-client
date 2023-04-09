@@ -38,6 +38,7 @@
   background-color: $background-color;
   border: 1px solid $primary-color;
   color: $primary-color;
+  outline: none;
 }
 
 @mixin form-btn {

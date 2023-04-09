@@ -43,7 +43,9 @@ const MyPost = ({ post }) => {
 
     try {
       const response = await POST_LIKE_TO_POST(post.id, likeUpdate);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
 
     setLikes(likes + 1);
     setIsLiked(!isLiked);
@@ -56,7 +58,9 @@ const MyPost = ({ post }) => {
 
     try {
       const response = await POST_UNLIKE_TO_POST(post.id, likeUpdate);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
 
     setLikes(likes - 1);
     setIsLiked(!isLiked);
