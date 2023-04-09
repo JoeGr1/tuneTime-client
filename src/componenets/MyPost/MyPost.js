@@ -6,6 +6,11 @@ import "../FeedPost/FeedPost.scss";
 
 import notLiked from "../../assets/icons/heart.svg";
 import liked from "../../assets/icons/heartFill2.svg";
+import {
+  DOES_USER_LIKE_POST,
+  POST_LIKE_TO_POST,
+  POST_UNLIKE_TO_POST,
+} from "../../utils/apiCalls";
 
 const MyPost = ({ post }) => {
   const [isLiked, setIsLiked] = useState(false);
@@ -24,9 +29,7 @@ const MyPost = ({ post }) => {
   useEffect(() => {
     try {
       const doesUserLikePost = async () => {
-        const response = await axios.get(
-          `${process.env.REACT_APP_SERVER_URL}/api/posts/${post.id}/liked/${user.spotify_id}`
-        );
+        const response = await DOES_USER_LIKE_POST(post.id, user.spotify_id);
         setIsLiked(response.data.liked);
       };
       doesUserLikePost();
@@ -39,10 +42,7 @@ const MyPost = ({ post }) => {
     };
 
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/api/posts/${post.id}/like`,
-        likeUpdate
-      );
+      const response = await POST_LIKE_TO_POST(post.id, likeUpdate);
     } catch (error) {}
 
     setLikes(likes + 1);
@@ -55,10 +55,7 @@ const MyPost = ({ post }) => {
     };
 
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/api/posts/${post.id}/unlike`,
-        likeUpdate
-      );
+      const response = await POST_UNLIKE_TO_POST(post.id, likeUpdate);
     } catch (error) {}
 
     setLikes(likes - 1);

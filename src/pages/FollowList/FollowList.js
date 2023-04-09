@@ -9,6 +9,7 @@ import axios from "axios";
 import { v4 as uuid } from "uuid";
 
 import "./FollowList.scss";
+import { GET_USER_BY_ID } from "../../utils/apiCalls";
 
 const FollowList = () => {
   const [displayedProfile, setDisplayedProfile] = useState();
@@ -28,9 +29,7 @@ const FollowList = () => {
     } else {
       const getProfile = async () => {
         try {
-          const { data } = await axios.get(
-            `${process.env.REACT_APP_SERVER_URL}/api/users/${spotify_id}`
-          );
+          const { data } = await GET_USER_BY_ID(spotify_id);
           setDisplayedProfile(data[0]);
         } catch (error) {
           console.log(error);

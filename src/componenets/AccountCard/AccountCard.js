@@ -3,6 +3,11 @@ import axios from "axios";
 
 import "./AccountCard.scss";
 import { Link } from "react-router-dom";
+import {
+  DELETE_FOLLOW,
+  GET_FOLLOWERS_BY_USER_ID,
+  POST_NEW_FOLLOW,
+} from "../../utils/apiCalls";
 
 const AccountCard = ({ account }) => {
   const [followers, setFollowers] = useState(null);
@@ -20,9 +25,7 @@ const AccountCard = ({ account }) => {
 
   const getFollowers = async () => {
     try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/following/followers/${account.spotify_id}`
-      );
+      const { data } = await GET_FOLLOWERS_BY_USER_ID(account.spotify_id);
       setFollowers(data);
     } catch (error) {
       console.log(error);
@@ -53,10 +56,7 @@ const AccountCard = ({ account }) => {
       };
 
       try {
-        const res = await axios.post(
-          `${process.env.REACT_APP_SERVER_URL}/api/following/`,
-          newFollowObj
-        );
+        const res = await POST_NEW_FOLLOW(newFollowObj);
         setAreFollowing(true);
       } catch (error) {
         console.log(error);
@@ -68,9 +68,7 @@ const AccountCard = ({ account }) => {
   const handleUnfollowClick = (e) => {
     const unfollow = async () => {
       try {
-        const res = await axios.delete(
-          `${process.env.REACT_APP_SERVER_URL}/api/following/${user.spotify_id}/${account.spotify_id}`
-        );
+        const res = await DELETE_FOLLOW(user.spotify_id, account.spotify_id);
         setAreFollowing(false);
       } catch (error) {
         console.log(error);

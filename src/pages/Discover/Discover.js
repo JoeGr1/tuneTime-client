@@ -7,6 +7,7 @@ import Footer from "../../componenets/Footer/Footer";
 import axios from "axios";
 
 import "./Discover.scss";
+import { GET_USERS_BY_SEARCH } from "../../utils/apiCalls";
 
 const Discover = () => {
   const [searchInput, setSearchInput] = useState(null);
@@ -24,9 +25,7 @@ const Discover = () => {
     const searchTerm = e.target.search.value;
 
     try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/users/search/${searchTerm}`
-      );
+      const { data } = await GET_USERS_BY_SEARCH(searchTerm);
 
       const list = data.filter((accounts) => {
         return accounts.spotify_id !== user.spotify_id;
@@ -46,9 +45,7 @@ const Discover = () => {
         if (!searchInput) {
           return;
         }
-        const { data } = await axios.get(
-          `${process.env.REACT_APP_SERVER_URL}/api/users/search/${searchInput}`
-        );
+        const { data } = await GET_USERS_BY_SEARCH(searchInput);
 
         const matchedList = data.filter((accounts) => {
           return accounts.spotify_id !== user.spotify_id;
