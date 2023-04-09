@@ -11,6 +11,11 @@ import axios from "axios";
 
 import "./Feed.scss";
 import "animate.css";
+import {
+  GET_FEED_BY_USER_ID,
+  POST_NEW_POST,
+  POST_USER,
+} from "../../utils/apiCalls";
 
 const Feed = ({ session }) => {
   const [posts, setPosts] = useState(null);
@@ -31,6 +36,31 @@ const Feed = ({ session }) => {
     }
   }, []);
 
+  function removeSessionPostAtRandomTime() {
+    const now = new Date();
+
+    const randomHour = Math.floor(Math.random() * 24);
+
+    const tuneTime = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      randomHour,
+      Math.floor(Math.random() * 60),
+      Math.floor(Math.random() * 60)
+    );
+
+    const timeDiff = tuneTime.getTime() - now.getTime();
+
+    setTimeout(() => {
+      sessionStorage.removeItem("sessionPost");
+      console.log(
+        "Removed sessionPost from sessionStorage at",
+        new Date().toLocaleString()
+      );
+    }, timeDiff);
+  }
+
   useEffect(() => {
     setCurrentProfile(user);
   }, []);
@@ -38,10 +68,7 @@ const Feed = ({ session }) => {
   useEffect(() => {
     const createUser = async () => {
       try {
-        const response = await axios.post(
-          `${process.env.REACT_APP_SERVER_URL}/api/users/create-user`,
-          user
-        );
+        const response = await POST_USER(user);
       } catch (err) {
         console.log(err);
       }
@@ -56,17 +83,17 @@ const Feed = ({ session }) => {
   };
 
   const persistPost = async (newPost) => {
-    const response = await axios.post(
-      `${process.env.REACT_APP_SERVER_URL}/api/posts/`,
-      newPost
-    );
+    const response = await POST_NEW_POST(newPost);
   };
 
   const getFeed = async () => {
-    const response = await axios.get(
-      `${process.env.REACT_APP_SERVER_URL}/api/posts/feed/${user.spotify_id}`
-    );
-    setFeedPosts([...response.data]);
+    try {
+      const response = await GET_FEED_BY_USER_ID(user.spotify_id);
+
+      setFeedPosts(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handlePostClick = async () => {

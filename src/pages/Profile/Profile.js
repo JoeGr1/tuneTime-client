@@ -6,6 +6,11 @@ import Footer from "../../componenets/Footer/Footer";
 import { Link } from "react-router-dom";
 
 import "./Profile.scss";
+import {
+  GET_FOLLOWERS_BY_USER_ID,
+  GET_FOLLOWING_BY_USER_ID,
+  GET_POSTS_BY_USER_ID,
+} from "../../utils/apiCalls";
 
 const Profile = () => {
   const [myPosts, setMyPosts] = useState(null);
@@ -18,9 +23,7 @@ const Profile = () => {
 
   const getFollowing = async () => {
     try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/following/${user.spotify_id}`
-      );
+      const { data } = await GET_FOLLOWING_BY_USER_ID(user.spotify_id);
       setFollowing(data);
     } catch (error) {
       console.log(error);
@@ -29,9 +32,7 @@ const Profile = () => {
 
   const getFollowers = async () => {
     try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/following/followers/${user.spotify_id}`
-      );
+      const { data } = await GET_FOLLOWERS_BY_USER_ID(user.spotify_id);
       setFollowers(data);
     } catch (error) {
       console.log(error);
@@ -45,9 +46,7 @@ const Profile = () => {
 
   const getMyPosts = async () => {
     try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/posts/${user.spotify_id}`
-      );
+      const { data } = await GET_POSTS_BY_USER_ID(user.spotify_id);
       const list = data.reverse();
 
       setMyPosts(list);

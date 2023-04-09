@@ -7,6 +7,14 @@ import Footer from "../../componenets/Footer/Footer";
 import { Link, useParams } from "react-router-dom";
 
 import "./ViewProfile.scss";
+import {
+  GET_FOLLOWING_BY_USER_ID,
+  GET_FOLLOWERS_BY_USER_ID,
+  GET_POSTS_BY_USER_ID,
+  GET_USER_BY_ID,
+  POST_NEW_FOLLOW,
+  DELETE_FOLLOW,
+} from "../../utils/apiCalls";
 
 const ViewProfile = () => {
   const [posts, setPosts] = useState([]);
@@ -23,17 +31,13 @@ const ViewProfile = () => {
   useEffect(() => {
     try {
       const getPosts = async () => {
-        const { data } = await axios.get(
-          `${process.env.REACT_APP_SERVER_URL}/api/posts/${displayedProfile.id}`
-        );
+        const { data } = await GET_POSTS_BY_USER_ID(displayedProfile.id);
         const list = data.reverse();
         setPosts(list);
       };
 
       const getProfile = async () => {
-        const { data } = await axios.get(
-          `${process.env.REACT_APP_SERVER_URL}/api/users/${displayedProfile.id}`
-        );
+        const { data } = await GET_USER_BY_ID(displayedProfile.id);
         setProfile(...data);
       };
       getPosts();
@@ -64,9 +68,7 @@ const ViewProfile = () => {
   const getFollowing = async () => {
     if (profile) {
       try {
-        const { data } = await axios.get(
-          `${process.env.REACT_APP_SERVER_URL}/api/following/${profile.spotify_id}`
-        );
+        const { data } = await GET_FOLLOWING_BY_USER_ID(profile.spotify_id);
         setFollowing(data);
       } catch (error) {
         console.log(error);
@@ -77,9 +79,7 @@ const ViewProfile = () => {
   const getFollowers = async () => {
     if (profile) {
       try {
-        const { data } = await axios.get(
-          `${process.env.REACT_APP_SERVER_URL}/api/following/followers/${profile.spotify_id}`
-        );
+        const { data } = await GET_FOLLOWERS_BY_USER_ID(profile.spotify_id);
         setFollowers(data);
       } catch (error) {
         console.log(error);
@@ -100,10 +100,7 @@ const ViewProfile = () => {
       };
 
       try {
-        const res = await axios.post(
-          `${process.env.REACT_APP_SERVER_URL}/api/following/`,
-          newFollowObj
-        );
+        const res = await POST_NEW_FOLLOW(newFollowObj);
         setAreFollowing(true);
       } catch (error) {
         console.log(error);
@@ -117,9 +114,7 @@ const ViewProfile = () => {
       const userId = user.spotify_id;
       const followingId = profile.spotify_id;
       try {
-        const res = await axios.delete(
-          `${process.env.REACT_APP_SERVER_URL}/api/following/${userId}/${followingId}`
-        );
+        const res = await DELETE_FOLLOW(userId, followingId);
         setAreFollowing(false);
       } catch (error) {
         console.log(error);
