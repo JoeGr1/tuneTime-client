@@ -95,9 +95,7 @@ const Profile = () => {
           {myPosts &&
             myPosts.map((post) => {
               return (
-                <Link key={post.id} className="feed__post-link">
-                  <MyPost post={post} className="feed__post-link" />
-                </Link>
+                <MyPost key={post.id} post={post} className="feed__post-link" />
               );
             })}
 

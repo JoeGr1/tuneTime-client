@@ -45,6 +45,7 @@ const SinglePost = ({ post, setShowmodal }) => {
     } catch (error) {
       console.log(error);
     }
+    e.target.reset();
   };
 
   const handleDelete = async (commentId, commentSpotifyId) => {

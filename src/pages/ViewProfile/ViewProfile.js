@@ -170,13 +170,7 @@ const ViewProfile = () => {
           {posts.length > 0 &&
             posts.map((post) => {
               return (
-                <Link
-                  key={post.id}
-                  to={`/profile/${post.id}`}
-                  className="feed__post-link"
-                >
-                  <MyPost post={post} className="feed__post-link" />
-                </Link>
+                <MyPost key={post.id} post={post} className="feed__post-link" />
               );
             })}
 
