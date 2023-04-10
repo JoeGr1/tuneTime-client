@@ -22,6 +22,12 @@
     }
   }
 
+  &__btn-wrapper {
+    @include flex(center, center, column);
+    height: 75vh;
+    margin: auto;
+  }
+
   &__post-tune-btn {
     @include form-btn;
     width: 17rem;

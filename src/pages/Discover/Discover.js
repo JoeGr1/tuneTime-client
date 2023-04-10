@@ -8,17 +8,27 @@ import axios from "axios";
 
 import "./Discover.scss";
 import { GET_USERS_BY_SEARCH } from "../../utils/apiCalls";
+import Recommendations from "../../componenets/Recommendations/Recommendations";
 
 const Discover = () => {
   const [searchInput, setSearchInput] = useState(null);
   const [matchedAccounts, setMatchedAccounts] = useState([]);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [show, setShow] = useState(false);
 
   const sessionProfile = sessionStorage.getItem("sessionProfile");
   const user = JSON.parse(sessionProfile);
 
   // localhost/users/:name
   //use params in back to query knex db
+
+  useEffect(() => {
+    if (!matchedAccounts.length) {
+      setShow(false);
+    } else {
+      setShow(true);
+    }
+  }, [matchedAccounts]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,6 +53,7 @@ const Discover = () => {
     const getMatched = async () => {
       try {
         if (!searchInput) {
+          setShow(false);
           return;
         }
         const { data } = await GET_USERS_BY_SEARCH(searchInput);
@@ -75,13 +86,15 @@ const Discover = () => {
             Search
           </button>
         </form>
-        {matchedAccounts.length > 0 &&
+        {show &&
+          matchedAccounts.length > 0 &&
           matchedAccounts.map((account) => {
             return <AccountCard key={account.spotify_id} account={account} />;
           })}
-        {formSubmitted && matchedAccounts.length === 0 && (
+        {show && formSubmitted && matchedAccounts.length === 0 && (
           <h3 className="discover__no-accounts-msg">User does not Exist </h3>
         )}
+        <Recommendations />
       </div>
       <Footer />
     </div>

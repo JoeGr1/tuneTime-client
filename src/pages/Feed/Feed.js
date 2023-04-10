@@ -198,6 +198,13 @@ const Feed = ({ session }) => {
   const toggleModal = (post) => {
     setShowmodal(!showModal);
     setPostClicked(post);
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    };
+    scrollToTop();
   };
 
   return (
@@ -205,14 +212,16 @@ const Feed = ({ session }) => {
       <Header />
       <div className="feed-wrapper">
         {!posts && (
-          <button
-            className="feed__post-tune-btn animate__animated animate__rubberBand animate__delay-2s"
-            onClick={handlePostClick}
-          >
-            post your tune
-          </button>
+          <div className="feed__btn-wrapper">
+            <button
+              className="feed__post-tune-btn animate__animated animate__rubberBand animate__delay-2s"
+              onClick={handlePostClick}
+            >
+              post your tune
+            </button>
+          </div>
         )}
-        {posts && <h2 className="feed__title">Your Feed</h2>}
+        {posts && <h2 className="feed__title">Today's Feed</h2>}
 
         {showModal && (
           <SinglePost post={postClicked} setShowmodal={setShowmodal} />

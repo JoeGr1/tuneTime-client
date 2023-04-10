@@ -1,2 +1,36 @@
 @use "../../styles/partials/mixins" as *;
 @use "../../styles/partials/variables" as *;
+
+.recomm {
+  &-wrapper {
+    width: 100%;
+    @include flex(left, center, column);
+    margin: $mobile-margin;
+    margin-top: 2rem;
+
+    @include tablet {
+      max-width: 47rem;
+    }
+  }
+
+  &__title {
+    margin: 0 0 1rem 0;
+  }
+
+  &__img {
+    width: 100%;
+    border-radius: 1.2rem;
+    margin: 0 0 2rem 0;
+  }
+
+  &__text {
+    text-decoration: wavy;
+    line-height: 2.5rem;
+    text-align: justify;
+  }
+
+  &__btn {
+    @include form-btn;
+    margin: 2rem auto 2rem 1rem;
+  }
+}
