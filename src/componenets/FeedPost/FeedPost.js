@@ -13,6 +13,8 @@ import {
   POST_UNLIKE_TO_POST,
 } from "../../utils/apiCalls";
 
+import spotifyLogo from "../../assets/icons/Spotify_Logo_RGB_Green.png";
+
 const FeedPost = ({ post, handleClick }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -102,6 +104,14 @@ const FeedPost = ({ post, handleClick }) => {
           {Number(likes)} {Number(likes) === 1 ? "Like" : "Likes"}
         </p>
       </div>
+      <div className="post__iframe">
+        <video className="video-preview" controls name="media">
+          <source src={post.preview_url} type="audio/mpeg" />
+        </video>
+      </div>
+      <a href="https://open.spotify.com/" className="post__spotify-link">
+        <img src={spotifyLogo} alt="" className="post__attribution" />
+      </a>
     </div>
   );
 };

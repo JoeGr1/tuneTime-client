@@ -118,7 +118,6 @@ const Feed = ({ session }) => {
     };
 
     try {
-      console.log("here");
       const response = await axios.get(
         "https://api.spotify.com/v1/me/player/currently-playing",
         { headers: currentlyPlayingHeader }
@@ -137,6 +136,9 @@ const Feed = ({ session }) => {
             user_name: user.user_name,
             song_name: response.data.items[0].track.name,
             song_id: response.data.items[0].track.id,
+            preview_url:
+              response.data.items[0].track.preview_url ||
+              "https://p.scdn.co/mp3-preview/eb37b52243d63ea9e55f77dcbe056db40a0045fa?cid=0b60031ad2e947e9a47dff182d518607",
             artist_name: response.data.items[0].track.album.artists[0].name,
             album_name: response.data.items[0].track.album.name,
             album_cover: response.data.items[0].track.album.images[1].url,
@@ -159,6 +161,9 @@ const Feed = ({ session }) => {
           user_name: user.user_name,
           song_name: response.data.item.name,
           song_id: response.data.item.id,
+          preview_url:
+            response.data.item.preview_url ||
+            "https://p.scdn.co/mp3-preview/eb37b52243d63ea9e55f77dcbe056db40a0045fa?cid=0b60031ad2e947e9a47dff182d518607",
           artist_name: response.data.item.album.artists[0].name,
           album_name: response.data.item.album.name,
           album_cover: response.data.item.album.images[1].url,
