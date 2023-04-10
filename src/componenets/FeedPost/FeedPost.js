@@ -13,6 +13,8 @@ import {
   POST_UNLIKE_TO_POST,
 } from "../../utils/apiCalls";
 
+import * as timeago from "timeago.js";
+
 import spotifyLogo from "../../assets/icons/Spotify_Logo_RGB_Green.png";
 
 const FeedPost = ({ post, handleClick }) => {
@@ -89,20 +91,23 @@ const FeedPost = ({ post, handleClick }) => {
           <p className="post__song-duration">{post.song_duration}</p>
         </div>
       </div>
-      <div className="post__likes-wrapper">
-        {isLiked && (
-          <button className="post__btn" onClick={handleUnlike}>
-            <img src={liked} alt="Like Icon" className="post__like-icon" />
-          </button>
-        )}
-        {!isLiked && (
-          <button className="post__btn" onClick={handleLike}>
-            <img src={notLiked} alt="Like Icon" className="post__like-icon" />
-          </button>
-        )}
-        <p className="post__likes">
-          {Number(likes)} {Number(likes) === 1 ? "Like" : "Likes"}
-        </p>
+      <div className="post__info">
+        <p className="post__date">{timeago.format(post.created_at)}</p>
+        <div className="post__likes-wrapper">
+          {isLiked && (
+            <button className="post__btn" onClick={handleUnlike}>
+              <img src={liked} alt="Like Icon" className="post__like-icon" />
+            </button>
+          )}
+          {!isLiked && (
+            <button className="post__btn" onClick={handleLike}>
+              <img src={notLiked} alt="Like Icon" className="post__like-icon" />
+            </button>
+          )}
+          <p className="post__likes">
+            {Number(likes)} {Number(likes) === 1 ? "Like" : "Likes"}
+          </p>
+        </div>
       </div>
       <div className="post__iframe">
         <video className="video-preview" controls name="media">
