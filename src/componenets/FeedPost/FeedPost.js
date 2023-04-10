@@ -76,6 +76,7 @@ const FeedPost = ({ post, handleClick }) => {
       <Link to={`/profile/${post.spotify_id}`} className="post__user-name">
         <h3 className="post__user-name">{post.user_name}</h3>
       </Link>
+      <h4 className="post__title">Tune of the Day</h4>
       <div onClick={handleClick} className="post__content">
         <img
           src={post.album_cover}

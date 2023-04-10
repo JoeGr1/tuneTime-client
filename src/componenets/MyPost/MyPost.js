@@ -72,6 +72,7 @@ const MyPost = ({ post }) => {
 
   return (
     <div className="post-wrapper">
+      <h4 className="post__title">Tune of the Day</h4>
       <div className="post__content">
         <img
           src={post.album_cover}

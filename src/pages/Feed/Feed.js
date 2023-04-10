@@ -140,6 +140,7 @@ const Feed = ({ session }) => {
               response.data.items[0].track.preview_url ||
               "https://p.scdn.co/mp3-preview/eb37b52243d63ea9e55f77dcbe056db40a0045fa?cid=0b60031ad2e947e9a47dff182d518607",
             artist_name: response.data.items[0].track.album.artists[0].name,
+            artist_id: response.data.items[0].track.album.artists[0].id,
             album_name: response.data.items[0].track.album.name,
             album_cover: response.data.items[0].track.album.images[1].url,
             song_duration: msToMins(response.data.items[0].track.duration_ms),
@@ -165,6 +166,7 @@ const Feed = ({ session }) => {
             response.data.item.preview_url ||
             "https://p.scdn.co/mp3-preview/eb37b52243d63ea9e55f77dcbe056db40a0045fa?cid=0b60031ad2e947e9a47dff182d518607",
           artist_name: response.data.item.album.artists[0].name,
+          artist_id: response.data.item.album.artists[0].id,
           album_name: response.data.item.album.name,
           album_cover: response.data.item.album.images[1].url,
           song_duration: msToMins(response.data.item.duration_ms),
