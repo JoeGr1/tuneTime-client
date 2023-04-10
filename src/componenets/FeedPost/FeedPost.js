@@ -90,22 +90,12 @@ const FeedPost = ({ post, handleClick }) => {
       <div className="post__likes-wrapper">
         {isLiked && (
           <button className="post__btn" onClick={handleUnlike}>
-            <img
-              src={liked}
-              alt="Like Icon"
-              className="post__like-icon"
-              // onClick={handleUnlike}
-            />
+            <img src={liked} alt="Like Icon" className="post__like-icon" />
           </button>
         )}
         {!isLiked && (
           <button className="post__btn" onClick={handleLike}>
-            <img
-              src={notLiked}
-              alt="Like Icon"
-              className="post__like-icon"
-              // onClick={handleLike}
-            />
+            <img src={notLiked} alt="Like Icon" className="post__like-icon" />
           </button>
         )}
         <p className="post__likes">
