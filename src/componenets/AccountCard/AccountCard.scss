@@ -3,20 +3,48 @@
 
 .account-card {
   &-wrapper {
+    margin: 0.5rem 2rem;
     border-radius: 2rem;
     border: 1px solid $primary-color;
-    padding: 1.6rem;
     cursor: pointer;
-    background-color: #b5e5d5;
+    background-color: $primary-color;
+    // background-color: #ffffff;
+    opacity: 80%;
+    box-shadow: 0px 5px 5px #ffffff;
     color: $background-color;
-    width: 100%;
+    width: 80%;
     @include flex(space-between, center, row);
+
+    &:hover {
+      transform: scale(1.05);
+      transition: all 0.5s;
+    }
   }
+
+  &__profile-link {
+    text-decoration: none;
+    width: 100%;
+    padding: 1.6rem;
+    padding-right: 0;
+    color: black;
+  }
+
   &__name {
     font-size: 2rem;
   }
 
   &__follow-btn {
     @include form-btn;
+    z-index: 10;
+  }
+
+  &__unfollow-btn {
+    @include form-btn;
+    z-index: 10;
+  }
+
+  &__is-user {
+    text-transform: uppercase;
+    margin-right: 4rem;
   }
 }

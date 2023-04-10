@@ -1,0 +1,20 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.profile {
+  &__follow-btn {
+    @include form-btn;
+  }
+
+  &__unfollow-btn {
+    @include form-btn;
+  }
+
+  &__post {
+    &-link {
+      width: 100%;
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+}

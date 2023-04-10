@@ -22,17 +22,28 @@
     }
   }
 
+  &__btn-wrapper {
+    @include flex(center, center, column);
+    height: 75vh;
+    margin: auto;
+  }
+
   &__post-tune-btn {
     @include form-btn;
     width: 17rem;
   }
 
+  &__title {
+    margin: 1.5rem 0;
+  }
+
   &__post {
     &-link {
+      @include flex(center, center, column);
+
       width: 100%;
       text-decoration: none;
       color: inherit;
-      margin: 1rem 0;
     }
   }
 }

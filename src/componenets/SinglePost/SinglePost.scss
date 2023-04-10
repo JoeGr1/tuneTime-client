@@ -1,0 +1,70 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.single-post {
+  background-color: #000000b3;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  @include flex(left, center, column);
+  z-index: 10;
+  height: 100%;
+
+  &__card {
+    @include flex(center, center, column);
+    width: 100%;
+    margin-top: 15rem;
+
+    background-color: $primary-color;
+    padding: 4rem;
+    border-radius: 2rem;
+    text-align: center;
+
+    @include desktop {
+      max-width: 102rem;
+    }
+  }
+
+  &__close {
+    color: $background-color;
+    cursor: pointer;
+  }
+}
+
+.comments {
+  width: 95%;
+  background-color: $background-color;
+  border-radius: 1.5rem;
+
+  &__title {
+    margin: 2rem;
+    @include flex(left, center, row);
+    width: 95%;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid $primary-color-alt;
+  }
+
+  &-form {
+    margin: 2rem;
+    @include flex(left, flex-start, column);
+
+    &__label {
+      margin: 1rem 0 0 0;
+    }
+
+    &__input {
+      width: 100%;
+      @include form-input;
+      border-radius: 1rem;
+      padding: 0.7rem;
+      margin: 1rem 0 0 0;
+    }
+
+    &__submit {
+      @include form-btn;
+      margin: 1rem 0 0 auto;
+      font-size: 1.3rem;
+    }
+  }
+}

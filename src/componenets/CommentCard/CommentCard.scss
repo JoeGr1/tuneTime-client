@@ -1,0 +1,44 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.comment {
+  &__card {
+    @include flex(left, flex-start, column);
+    margin: 2.5rem;
+  }
+
+  &__name {
+    @include flex(left, flex-start, column);
+
+    width: 100%;
+    border-bottom: 0.5px solid $primary-color;
+    padding-bottom: 0.5rem;
+  }
+
+  &__content-wrapper {
+    @include flex(space-between, flex-start, row);
+    width: 100%;
+  }
+
+  &__content {
+    @include flex(left, flex-start, row);
+    margin: 1rem 0;
+    width: auto;
+  }
+
+  &__info {
+    margin: 1rem 0;
+    @include flex(right, flex-end, column);
+    width: auto;
+  }
+
+  &__date {
+    width: auto;
+  }
+
+  &__delete {
+    width: fit-content;
+    margin: 1rem 0 1rem auto;
+    cursor: pointer;
+  }
+}

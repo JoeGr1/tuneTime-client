@@ -1,0 +1,14 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.events {
+  &-fragment {
+    margin-top: 3rem;
+  }
+
+  &-wrapper {
+    @include flex(center, center, column);
+    height: 70vh;
+    width: 100%;
+  }
+}

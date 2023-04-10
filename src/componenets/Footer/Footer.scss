@@ -1,0 +1,18 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.footer {
+  &-wrapper {
+    @include flex(center, center, row);
+    margin: 3rem;
+  }
+
+  &__text {
+    font-weight: 400;
+  }
+
+  &__spotify-logo {
+    width: 7rem;
+    margin-left: 0.5rem;
+  }
+}

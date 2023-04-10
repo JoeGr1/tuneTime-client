@@ -37,6 +37,11 @@
     }
   }
 
+  &__account-link {
+    width: 100%;
+    text-decoration: none;
+  }
+
   &__no-accounts-msg {
     color: inherit;
     font-size: 1.6rem;

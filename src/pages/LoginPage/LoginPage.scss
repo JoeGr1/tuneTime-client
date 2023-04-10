@@ -15,24 +15,8 @@
 .login-form {
   @include flex(center, flex-start, column);
 
-  &__label {
-    margin: 1rem;
-    font-size: 2.4rem;
-  }
-
-  &__input {
-    @include form-input;
-    width: 17rem;
-  }
-
   &__sbmt {
     @include form-btn;
     width: 17rem;
-  }
-
-  &__signup {
-    margin-top: 2rem;
-    text-decoration: none;
-    color: $primary-color;
   }
 }
