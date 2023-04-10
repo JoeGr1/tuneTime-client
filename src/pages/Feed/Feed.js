@@ -118,6 +118,7 @@ const Feed = ({ session }) => {
     };
 
     try {
+      console.log("here");
       const response = await axios.get(
         "https://api.spotify.com/v1/me/player/currently-playing",
         { headers: currentlyPlayingHeader }
@@ -143,7 +144,7 @@ const Feed = ({ session }) => {
             likes: "0",
           };
 
-          persistPost(newPost);
+          await persistPost(newPost);
 
           const { data } = await GET_POSTS_BY_USER_ID(user.spotify_id);
 
@@ -165,7 +166,7 @@ const Feed = ({ session }) => {
           likes: "0",
         };
 
-        persistPost(newPost);
+        await persistPost(newPost);
 
         const { data } = await GET_POSTS_BY_USER_ID(user.spotify_id);
 
