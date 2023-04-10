@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import "./Recommendations.scss";
 
@@ -6,6 +6,13 @@ import img from "../../assets/icons/5870.jpg";
 import "animate.css";
 
 const Recommendations = () => {
+  const [recommended, setRecommended] = useState(null);
+
+  const sessionProfile = sessionStorage.getItem("sessionProfile");
+  const user = JSON.parse(sessionProfile);
+
+  useEffect(() => {}, []);
+
   return (
     <div className="recomm-wrapper">
       <h2 className="recomm__title">Discover New Tunes!</h2>
