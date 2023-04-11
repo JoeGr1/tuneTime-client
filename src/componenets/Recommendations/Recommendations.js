@@ -21,8 +21,6 @@ const Recommendations = () => {
         `${process.env.REACT_APP_SERVER_URL}/api/get-recommended/${user.spotify_id}`
       );
 
-      console.log(response.data);
-
       setRecommended(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -42,7 +40,7 @@ const Recommendations = () => {
     <div className="recomm-wrapper">
       <h2 className="recomm__title">Discover New Tunes!</h2>
 
-      <img src={img} alt="" className="recomm__img" />
+      <img src={img} alt="Song sharing image" className="recomm__img" />
 
       <p className="recomm__text">
         Our song sharing app just got even better! Introducing our new
@@ -52,12 +50,15 @@ const Recommendations = () => {
         current listening preferences. Click here to see your tailored list and
         start exploring new sounds today!
       </p>
-      <button
-        onClick={handleClick}
-        className="recomm__btn animate__animated animate__rubberBand animate__delay-2s"
-      >
-        New Tunes
-      </button>
+      {!recommended && (
+        <button
+          onClick={handleClick}
+          className="recomm__btn animate__animated animate__rubberBand animate__delay-2s"
+        >
+          New Tunes
+        </button>
+      )}
+      {recommended && <h3 className="recomm__subheading">Your Recommended</h3>}
       {!isLoading &&
         recommended &&
         recommended.map((song) => {

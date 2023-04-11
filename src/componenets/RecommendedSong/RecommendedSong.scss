@@ -1,2 +1,27 @@
 @use "../../styles/partials/mixins" as *;
 @use "../../styles/partials/variables" as *;
+
+.recomm-song {
+  &-wrapper {
+    @include flex(left, center, row);
+    width: 100%;
+    border: 1px solid $primary-color;
+    border-radius: 1.2rem;
+    margin: 0.5rem 0;
+    padding: 1rem;
+  }
+
+  &__album-cover {
+    width: 12rem;
+  }
+
+  &__text-wrapper {
+    @include flex(left, flex-end, column);
+    width: 100%;
+  }
+
+  &__attribution {
+    width: 4rem;
+    margin: 1.5rem;
+  }
+}
