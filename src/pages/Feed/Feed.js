@@ -80,11 +80,15 @@ const Feed = ({ session }) => {
     const createUser = async () => {
       try {
         const response = await POST_USER(user);
+        console.log("done");
       } catch (err) {
         console.log(err);
       }
-      createUser();
     };
+
+    if (currentProfile) {
+      createUser();
+    }
   }, [currentProfile]);
 
   const msToMins = (ms) => {
